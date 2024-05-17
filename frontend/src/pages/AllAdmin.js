@@ -39,7 +39,7 @@ const AllAdmin = () => {
         const response = await axios.get(`/api/get_supervisor/${userId}`);
         const { name, department } = response.data; // Assuming the API returns name and department of the admin user
         const studentsResponse = await axios.get('/getScholarshipDetail');
-        const filteredStudents = studentsResponse.data.filter(student => student.supervisor === name && student.branch === department);
+        const filteredStudents = studentsResponse.data.filter(student => (student.supervisor === name && student.branch === department));
         setScholarshipDetail(filteredStudents);
         setLoading(false);
       } catch (error) {
@@ -117,8 +117,12 @@ const AllAdmin = () => {
         toast.success("Update Successful");
         setEditIndex(null);
         // Fetch updated details
+        const userId = localStorage.getItem("userId");
+        const response = await axios.get(`/api/get_supervisor/${userId}`);
+        const { name, department } = response.data; 
         const updatedDetails = await axios.get('/getScholarshipDetail');
-        setScholarshipDetail(updatedDetails.data);
+        const filteredStudents = updatedDetails.data.filter(student => (student.supervisor === name && student.branch === department));
+        setScholarshipDetail(filteredStudents);
       } else {
         toast.error("Update failed");
       }
