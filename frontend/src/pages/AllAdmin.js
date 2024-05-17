@@ -132,6 +132,9 @@ const AllAdmin = () => {
     setFormData(scholarshipDetail[index]);
   };
 
+
+  
+
   const handleDownloadPDF = () => {
     const input = document.getElementById('pdf-table');
 
@@ -262,7 +265,12 @@ const AllAdmin = () => {
                       required
                       disabled={index !== editIndex}
                       value={index === editIndex ? formData.actualScholarship : scholarshipDetail[index]?.actualScholarship}
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const hra = parseFloat(value) * 0.18; // Calculate HRA
+                        const netAmount = parseFloat(value) + hra; // Calculate netAmount
+                        setFormData({ ...formData, actualScholarship: value, hra: hra.toFixed(2), netAmount: netAmount.toFixed(2) });
+                      }}
                     /></td>
                     <td><input
                       type="number"
@@ -288,7 +296,11 @@ const AllAdmin = () => {
                         {index === editIndex ? (
                           <button className='btn' type='submit'>Update</button>
                         ) : (
-                          <button className='btn' onClick={() => handleEdit(index)}>Edit</button>
+                          <button className='btn' onClick={(e) => {
+                            e.preventDefault();
+                            handleEdit(index);
+                          }}
+                        >Edit</button>
                         )}
                         {scholarshipDetail[index].verification_supervisor ? (
                           scholarshipDetail[index].verification_student ? (
