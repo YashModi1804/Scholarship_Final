@@ -57,6 +57,7 @@ const AllAdmin = () => {
       const updatedResponse = await axios.put(`/api/update_supervisor_verification/verify/${student._id}`);
       const updatedStudent = { ...student, verification_supervisor: true };
       setScholarshipDetail(prevDetails => prevDetails.map((item, idx) => idx === index ? updatedStudent : item));
+      toast.success("Verification Supervisor Successful");
     } catch (error) {
       console.error('Error updating verification status:', error);
     }
@@ -68,6 +69,7 @@ const AllAdmin = () => {
       const updatedResponse = await axios.put(`/api/update_supervisor_validation/validate/${student._id}`);
       const updatedStudent = { ...student, validation_supervisor: true };
       setScholarshipDetail(prevDetails => prevDetails.map((item, idx) => idx === index ? updatedStudent : item));
+      toast.success("Validation Supervisor Successful");
     } catch (error) {
       console.error('Error updating validation status:', error);
     }
@@ -124,7 +126,9 @@ const AllAdmin = () => {
         const filteredStudents = updatedDetails.data.filter(student => (student.supervisor === name && student.branch === department));
         setScholarshipDetail(filteredStudents);
       } else {
-        toast.error("Update failed");
+        const errorData = await response.json(); // Parse the error response
+      toast.error(`Update failed: ${errorData.message}`);
+      console.error("Error updating details:", errorData);
       }
     } catch (error) {
       console.log("Error updating details: ", error);
@@ -311,15 +315,20 @@ const AllAdmin = () => {
                             scholarshipDetail[index].validation_supervisor ? (
                               <button className='btn btn-locked' disabled>Locked</button>
                             ) : (
-                              <button className='btn' onClick={() => handleValidationToggle(index)} disabled={scholarshipDetail[index].validation_supervisor}
+                              <button className='btn' onClick={(e) => {
+                                e.preventDefault();
+                                handleValidationToggle(index);
+                              }} disabled={scholarshipDetail[index].validation_supervisor}
                                 style={{ backgroundColor: scholarshipDetail[index].validation_supervisor ? 'transparent' : 'initial', color: '#4285f4' }}
                               >Lock</button>
                             )
                           ) : (
-                            <button className='btn btn-processed'>Processed</button>
+                            <button className='btn btn-processed' disabled>Processed</button>
                           )
                         ) : (
-                          <button className='btn' onClick={() => handleVerificationToggle(index)} disabled={scholarshipDetail[index].verification_supervisor}>Process</button>
+                          <button className='btn' onClick={(e) => {
+                            e.preventDefault();
+                            handleVerificationToggle(index);}} disabled={scholarshipDetail[index].verification_supervisor}>Process</button>
                         )}
                       </div>
                     </td>

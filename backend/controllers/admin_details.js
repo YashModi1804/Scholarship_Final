@@ -1,5 +1,6 @@
 import Admin from "../models/admin.js";
 import mongoose from "mongoose";
+import { createError } from "../error.js";
 
 // Controller function to create a new admin user
 export const createAdmin = async (req, res) => {
