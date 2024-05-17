@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import jsPDF from 'jspdf';
-import month from 'months'
+import month from 'months';
 import html2canvas from 'html2canvas';
 
-
-const Admin = ({ enrollment }) => {
-    const [details, setDetails] = useState(null); // Initialize details as an empty array
+const Admin = () => {
+    const [details, setDetails] = useState([]); // Initialize details as an empty array
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const fetchScholarshipDetails = async () => {
-        try {
-            const response = await axios.get(`/getScholarshipDetail`);
-            setDetails(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching scholarship details:', error);
-            setLoading(false);
-        }
-    };
+        const fetchScholarshipDetails = async () => {
+            try {
+                const userId = localStorage.getItem("userId");
+                const responseAdmin = await axios.get(`/api/get_supervisor/${userId}`);
+                const { name, department } = responseAdmin.data; 
+                const response = await axios.get(`/getScholarshipDetail`);
+                const updatedDetails = await axios.get('/getScholarshipDetail');
+                const filteredStudents = updatedDetails.data.filter(student => (student.branch === department));
+                setDetails(filteredStudents);
+                setLoading(false);
+                console.log('Fetched scholarship details:', filteredStudents);
+            } catch (error) {
+                console.error('Error fetching scholarship details:', error);
+                setLoading(false);
+            }
+        };
 
         fetchScholarshipDetails();
-    }, [enrollment]);
+    }, []);
 
     const handleDownloadPDF = () => {
         const input = document.getElementById('pdf-table');
@@ -38,17 +43,21 @@ const Admin = ({ enrollment }) => {
             });
     };
 
-    const handleVerificationToggle = async () => {
+    const handleVerificationToggle = async (id) => {
         try {
-            // Assuming you have a unique identifier like student ID
-            const updatedResponse = await axios.put(`/api/update_hod_verification/verify/${details._id}`);
-            const updatedDetails = { ...details, verification_hod: true }; // Correct way to update state immutably
-            setDetails(updatedDetails);
+            await axios.put(`/api/update_hod_verification/verify/${id}`);
+            setDetails(prevDetails => 
+                prevDetails.map(detail =>
+                    detail._id === id ? { ...detail, verification_hod: true } : detail
+                )
+            );
+            console.log('Toggling verification for student ID:', id);
         } catch (error) {
             console.error('Error updating verification status:', error);
         }
     };
-    
+     
+
 
     if (loading) {
         return <p>Loading scholarship details...</p>;
@@ -56,55 +65,56 @@ const Admin = ({ enrollment }) => {
 
     return (
         <>
-            <div className="scholarship-details">
-            <h2>Scholarship Details</h2>
-            <table>
-                <thead>
-                    <tr>
-                        {/* <th>Status</th> */}
-                        <th>Month</th>
-                        <th>Reg No-Name</th>
-                        <th>Branch</th>
-                        <th>Semester</th>
-                        <th>Bank A/C</th>
-                        <th>Total Days</th>
-                        <th>Entitlement</th>
-                        <th>Actual Scholarship</th>
-                        <th>HRA @18% of Scholarship</th>
-                        <th>Net Amount</th>
-                        <th>Supervisor</th>
-                        <th>Student Verification</th> {/* New column for verification status */}
-                        <th>check</th> {/* New column for verification status */}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {/* <td>{details.verification_supervisor ? 'Under Process' : 'Verification Pending'}</td> */}
-                        <td>{month[new Date().getMonth()]}</td> {/* Displaying month name */}
-                        <td>{details.enrollment}</td>
-                        <td>{details.branch}</td>
-                        <td>{details.semester}</td>
-                        <td>{details.bankAccount}</td>
-                        <td>{details.totalDays}</td>
-                        <td>{details.entitlement}</td>
-                        <td>{details.actualScholarship}</td>
-                        <td>{details.hra}</td>
-                        <td>{details.netAmount}</td>
-                        <td>{details.supervisor}</td>
-                        <td>
-                            {/* Button to toggle verification status */}
-                            {
-                            details.validation_supervisor ?
-                            (<button onClick={handleVerificationToggle} disabled={details.verification_hod} >
-                                Verify
-                            </button>): ""
-                            }
-                        </td>
-                        <td>{details.verification_hod ? 'Verified' : 'Not Verified'}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div className="scholarship-details" id="pdf-table">
+                <h2>Scholarship Details</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Name</th>
+                            <th>Reg No-Name</th>
+                            <th>Branch</th>
+                            <th>Semester</th>
+                            <th>Bank A/C</th>
+                            <th>Total Days</th>
+                            <th>Entitlement</th>
+                            <th>Actual Scholarship</th>
+                            <th>HRA @18% of Scholarship</th>
+                            <th>Net Amount</th>
+                            <th>Supervisor</th>
+                            <th>Student Verification</th>
+                            <th>Check</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {details.map((detail) => (
+                            <tr key={detail._id}>
+                                <td>{month[new Date().getMonth()]}</td>
+                                <td>{detail.name}</td>
+                                <td>{detail.enrollment}</td>
+                                <td>{detail.branch}</td>
+                                <td>{detail.semester}</td>
+                                <td>{detail.bankAccount}</td>
+                                <td>{detail.totalDays}</td>
+                                <td>{detail.entitlement}</td>
+                                <td>{detail.actualScholarship}</td>
+                                <td>{detail.hra}</td>
+                                <td>{detail.netAmount}</td>
+                                <td>{detail.supervisor}</td>
+                                <td>
+                                    {detail.validation_supervisor && (
+                                        <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_hod}>
+                                            Verify
+                                        </button>
+                                    )}
+                                </td>
+                                <td>{detail.verification_hod ? 'Verified' : 'Not Verified'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <button onClick={handleDownloadPDF}>Download PDF</button>
+            </div>
         </>
     );
 }
