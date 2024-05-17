@@ -31,24 +31,23 @@ const AllAdmin = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Fetching supervisor details and filtering students
-  useEffect(() => {
-    const fetchAdminDetails = async () => {
-      try {
-        const userId = localStorage.getItem("userId");
-        const response = await axios.get(`/api/get_supervisor/${userId}`);
-        const { name, department } = response.data; // Assuming the API returns name and department of the admin user
-        const studentsResponse = await axios.get('/getScholarshipDetail');
-        const filteredStudents = studentsResponse.data.filter(student => (student.supervisor === name && student.branch === department));
-        setScholarshipDetail(filteredStudents);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching admin details:', error);
-        setLoading(false);
-      }
-    };
+  const fetchAndFilterStudents = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await axios.get(`/api/get_supervisor/${userId}`);
+      const { name, department } = response.data;
+      const studentsResponse = await axios.get('/getScholarshipDetail');
+      const filteredStudents = studentsResponse.data.filter(student => (student.supervisor === name && student.branch === department));
+      setScholarshipDetail(filteredStudents);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching admin details:', error);
+      setLoading(false);
+    }
+  };
 
-    fetchAdminDetails();
+  useEffect(() => {
+    fetchAndFilterStudents();
   }, []);
 
   const handleVerificationToggle = async (index) => {
@@ -58,6 +57,7 @@ const AllAdmin = () => {
       const updatedStudent = { ...student, verification_supervisor: true };
       setScholarshipDetail(prevDetails => prevDetails.map((item, idx) => idx === index ? updatedStudent : item));
       toast.success("Verification Supervisor Successful");
+      await fetchAndFilterStudents();
     } catch (error) {
       console.error('Error updating verification status:', error);
     }
@@ -70,18 +70,11 @@ const AllAdmin = () => {
       const updatedStudent = { ...student, validation_supervisor: true };
       setScholarshipDetail(prevDetails => prevDetails.map((item, idx) => idx === index ? updatedStudent : item));
       toast.success("Validation Supervisor Successful");
+      await fetchAndFilterStudents();
     } catch (error) {
       console.error('Error updating validation status:', error);
     }
   };
-
-  useEffect(() => {
-    axios.get('/getScholarshipDetail')
-      .then(response => {
-        setScholarshipDetail(response.data);
-      })
-      .catch(err => console.log(err));
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -93,7 +86,6 @@ const AllAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch(URL, {
         method: "PUT",
@@ -118,17 +110,11 @@ const AllAdmin = () => {
         });
         toast.success("Update Successful");
         setEditIndex(null);
-        // Fetch updated details
-        const userId = localStorage.getItem("userId");
-        const response = await axios.get(`/api/get_supervisor/${userId}`);
-        const { name, department } = response.data; 
-        const updatedDetails = await axios.get('/getScholarshipDetail');
-        const filteredStudents = updatedDetails.data.filter(student => (student.supervisor === name && student.branch === department));
-        setScholarshipDetail(filteredStudents);
+        await fetchAndFilterStudents();
       } else {
-        const errorData = await response.json(); // Parse the error response
-      toast.error(`Update failed: ${errorData.message}`);
-      console.error("Error updating details:", errorData);
+        const errorData = await response.json();
+        toast.error(`Update failed: ${errorData.message}`);
+        console.error("Error updating details:", errorData);
       }
     } catch (error) {
       console.log("Error updating details: ", error);
@@ -140,21 +126,16 @@ const AllAdmin = () => {
     setFormData(scholarshipDetail[index]);
   };
 
-
-  
-
   const handleDownloadPDF = () => {
     const input = document.getElementById('pdf-table');
-
-    html2canvas(input)
-      .then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        const imgWidth = 210;
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save("download.pdf");
-      });
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgWidth = 210;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save("download.pdf");
+    });
   };
 
   const handleStatusPage = () => {
