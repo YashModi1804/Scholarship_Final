@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import logo from '../image/logo.png';
 const URL = "http://localhost:8800/api/admin_details/admin/login";
 
@@ -11,10 +10,9 @@ const AdminLogin = () => {
         password: "",
     });
     const navigate = useNavigate();
-    const handleInput = (e) => {
-        let name = e.target.name;
-        let value = e.target.value;
 
+    const handleInput = (e) => {
+        const { name, value } = e.target;
         setUser({
             ...user,
             [name]: value,
@@ -34,26 +32,30 @@ const AdminLogin = () => {
             const responseData = await response.json();
             console.log("response", responseData);
 
-            if(response.ok) {
-                setUser({username: "", password: "",});
-                navigate("/allAdmin");
-                toast.success("Login Successful");
+            if (response.ok) {
+                setUser({ username: "", password: "" });
                 localStorage.setItem("userId", responseData.userId);
+                toast.success("Login Successful");
+                
+                if (responseData.position === 'supervisor') {
+                    navigate("/allAdmin");
+                } else if (responseData.position === 'hod') {
+                    navigate("/admin");
+                }
             } else {
-                toast.error(responseData.message? responseData.message: "Invalid Credentials");
+                toast.error(responseData.message ? responseData.message : "Invalid Credentials");
             }
         } catch (error) {
-            toast.error("Something Error");
+            toast.error("Something went wrong");
         }
-    }
-
+    };
 
     return (
         <div className='login-container'>
             <div className='login-top'>National Institute of Technology Srinagar</div>
             <div className='login-container-wrapper'>
                 <div className='login-container-2'>
-                    <img src={logo} alt="Logo"></img>
+                    <img src={logo} alt="Logo" />
                     <h1>Scholarship Portal</h1>
                     <h3>Sign In</h3>
                     <form onSubmit={handleSubmit}>
@@ -68,7 +70,7 @@ const AdminLogin = () => {
                               value={user.username}
                               onChange={handleInput}
                             />
-                            <label htmlFor="username">Password</label>
+                            <label htmlFor="password">Password</label>
                             <input 
                               type='password'
                               name='password' 
@@ -79,14 +81,15 @@ const AdminLogin = () => {
                               onChange={handleInput}
                             />
                         </div>
-                        <button id='login-btn' type='submit' className='btn' >Submit</button>
+                        <button id='login-btn' type='submit' className='btn'>Submit</button>
                         <div className='Lower-buttons'>
-                        <button className='forget-password'>Reset Password</button>
+                            <button className='forget-password'>Reset Password</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     );
-}
+};
+
 export default AdminLogin;

@@ -12,7 +12,7 @@ const Admin = ({ enrollment }) => {
     useEffect(() => {
       const fetchScholarshipDetails = async () => {
         try {
-            const response = await axios.get(`/api/student_details_user/${"2022PHAMEC222"}`);
+            const response = await axios.get(`/getScholarshipDetail`);
             setDetails(response.data);
             setLoading(false);
         } catch (error) {

@@ -43,6 +43,7 @@ export const LoginAdmin = async (req, res, next) => {
             msg: "Login Successfully",
             // token: await user.generateToken(),
             userId: user._id.toString(),
+           position:user.position
         });
     } catch (error) {
         console.log("error: ", error);
