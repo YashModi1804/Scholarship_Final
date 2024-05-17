@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
     },
     entitlement: {
         type: Number,
-        default: 37000,
+        default: 0,
     },
     actualScholarship: {
         type: Number,

@@ -8,6 +8,9 @@ import { CiBank } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import month from 'months';
+import * as XLSX from 'xlsx'; // Import the xlsx library
+
 
 const URL = "http://localhost:8800/api/studentDetails/scholarshipDetail";
 
@@ -138,6 +141,46 @@ const AllAdmin = () => {
     });
   };
 
+  const handleDownloadExcel = () => {
+    const headers = [
+      'Month',
+      'Name',
+      'Registration Number',
+      'Branch',
+      'Semester',
+      'Bank Account',
+      'Total Days',
+      'Entitlement',
+      'Actual Scholarship',
+      'HRA (18% of Scholarship)',
+      'Net Amount',
+      'Supervisor',
+      'Student Verification',
+      'Status'
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet([headers, ...scholarshipDetail.map(detail => [
+      month[new Date().getMonth()],
+      detail.name,
+      detail.enrollment,
+      detail.branch,
+      detail.semester,
+      detail.bankAccount,
+      detail.totalDays,
+      detail.entitlement,
+      detail.actualScholarship,
+      detail.hra,
+      detail.netAmount,
+      detail.supervisor,
+      detail.verification_hod ? 'Verified' : 'Not Verified',
+      detail.verification_hod ? 'Verified' : 'Not Verified'
+    ])]);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Scholarship Details');
+    XLSX.writeFile(workbook, 'ScholarshipDetails.xlsx');
+  };
+
   const handleStatusPage = () => {
     navigate('/status');
   };
@@ -184,20 +227,10 @@ const AllAdmin = () => {
                   <option value="admin">March</option>
                 </select>
               </div>
-              <div className='admin-content-2'>
-                <label htmlFor="degree"><span>*</span>Degree</label>
-                <select className='degree-Drop-box drop-box'>
-                  <option value="student">PhD</option>
-                </select>
-                <label htmlFor="branch"><span>*</span>Branch</label>
-                <select className='branch-Drop-box drop-box'>
-                  <option value="student">Computer Science Engineering</option>            
-                </select>
-              </div>
             </div>
             <div className="admin-buttons">
               <button className='btn' onClick={() => setShowTable(true)}>Show</button>
-              <button className='btn'>Excel Report</button>
+              <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
               <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
             </div>
           </div>
