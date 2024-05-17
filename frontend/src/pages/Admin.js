@@ -3,10 +3,15 @@ import axios from "axios";
 import jsPDF from 'jspdf';
 import month from 'months';
 import html2canvas from 'html2canvas';
+import * as XLSX from 'xlsx'; // Import the xlsx library
+
+
 
 const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
     const [loading, setLoading] = useState(true);
+    const [showTable, setShowTable] = useState(true);
+
 
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
@@ -42,6 +47,46 @@ const Admin = () => {
                 pdf.save("download.pdf");
             });
     };
+    
+    const handleDownloadExcel = () => {
+        const headers = [
+          'Month',
+          'Name',
+          'Registration Number',
+          'Branch',
+          'Semester',
+          'Bank Account',
+          'Total Days',
+          'Entitlement',
+          'Actual Scholarship',
+          'HRA (18% of Scholarship)',
+          'Net Amount',
+          'Supervisor',
+          'Student Verification',
+          'Status'
+        ];
+    
+        const worksheet = XLSX.utils.json_to_sheet([headers, ...details.map(detail => [
+          month[new Date().getMonth()],
+          detail.name,
+          detail.enrollment,
+          detail.branch,
+          detail.semester,
+          detail.bankAccount,
+          detail.totalDays,
+          detail.entitlement,
+          detail.actualScholarship,
+          detail.hra,
+          detail.netAmount,
+          detail.supervisor,
+          detail.verification_hod ? 'Verified' : 'Not Verified',
+          detail.verification_hod ? 'Verified' : 'Not Verified'
+        ])]);
+    
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Scholarship Details');
+        XLSX.writeFile(workbook, 'ScholarshipDetails.xlsx');
+      };
 
     const handleVerificationToggle = async (id) => {
         try {
@@ -65,8 +110,46 @@ const Admin = () => {
 
     return (
         <>
+        <div className='admin-top'>Scholarship Entry Page</div>
+        <div>
+        <div className="admin-container-content-2">
+            <div className="admin-content">
+              <div className='admin-content-1'>
+                <label htmlFor="session"><span>*</span>Session</label>
+                <select className='session-Drop-box drop-box'>
+                  <option value="session">SPRING 2024</option>
+                  <option value="session">AUTUMN 2024</option>
+                </select>
+                <label htmlFor="year"><span>*</span>Year</label>
+                <select className='year-Drop-box drop-box'>
+                  <option value="student">2024</option>
+                  <option value="admin">2023</option>
+                </select>
+                <label htmlFor="month"><span>*</span>Month</label>
+                <select className='month-Drop-box drop-box'>
+                  <option value="student">April</option>
+                  <option value="admin">March</option>
+                </select>
+              </div>
+              <div className='admin-content-2'>
+                <label htmlFor="degree"><span>*</span>Degree</label>
+                <select className='degree-Drop-box drop-box'>
+                  <option value="student">PhD</option>
+                </select>
+                <label htmlFor="branch"><span>*</span>Branch</label>
+                <select className='branch-Drop-box drop-box'>
+                  <option value="student">Computer Science Engineering</option>            
+                </select>
+              </div>
+                </div>
+                <div className="admin-buttons">
+                <button className='btn' onClick={() => setShowTable(true)}>Show</button>
+                <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
+                <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+                </div>
+            </div>
+        </div>
             <div className="scholarship-details" id="pdf-table">
-                <h2>Scholarship Details</h2>
                 <table>
                     <thead>
                         <tr>
@@ -113,7 +196,6 @@ const Admin = () => {
                         ))}
                     </tbody>
                 </table>
-                <button onClick={handleDownloadPDF}>Download PDF</button>
             </div>
         </>
     );
