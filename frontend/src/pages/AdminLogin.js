@@ -42,6 +42,21 @@ const AdminLogin = () => {
                 } else if (responseData.position === 'hod') {
                     navigate("/admin");
                 }
+                 else if (responseData.position === 'adean') {
+                    navigate("/adean");
+                }
+                 else if (responseData.position === 'dean') {
+                    navigate("/dean");
+                }
+                 else if (responseData.position === 'sectionhead') {
+                    navigate("/sectionhead");
+                }
+                 else if (responseData.position === 'aregistrar') {
+                    navigate("/aregistrar");
+                }
+                 else if (responseData.position === 'draccountant') {
+                    navigate("/draccountant");
+                }
             } else {
                 toast.error(responseData.message ? responseData.message : "Invalid Credentials");
             }
