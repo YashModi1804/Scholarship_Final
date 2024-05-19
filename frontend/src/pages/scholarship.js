@@ -67,7 +67,6 @@ const ScholarshipDetails = ({ enrollment }) => {
                         <th>Net Amount</th>
                         <th>Supervisor</th>
                         <th>Student Verification</th> {/* New column for verification status */}
-                        <th>check</th> {/* New column for verification status */}
                     </tr>
                 </thead>
                 <tbody>

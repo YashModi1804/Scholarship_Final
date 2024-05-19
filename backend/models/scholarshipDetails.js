@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:"",
     },
+    dateOfJoining: {
+        type: Date,
+        default:"",
+    },
     totalDays: {
         type: Number,
         default:"",

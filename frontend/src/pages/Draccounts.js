@@ -130,6 +130,11 @@ const Admin = () => {
                             <label htmlFor="branch"><span>*</span>Branch</label>
                             <select className='branch-Drop-box drop-box'>
                                 <option value="student">Computer Science Engineering</option>            
+                                <option value="student">Information Technology Engineering</option>            
+                                <option value="student">Electronics & Communication Engineering</option>            
+                                <option value="student">Electrical Engineering</option>            
+                                <option value="student">Mechancial Engineering</option>            
+                                <option value="student">Civil Engineering</option>           
                             </select>
                         </div>
                     </div>

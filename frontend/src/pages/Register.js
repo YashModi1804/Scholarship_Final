@@ -41,7 +41,7 @@ const Register = () => {
 
             if(response.ok) {
                 setUser({name: "", enrollment: "", username: "", password: ""});
-                toast.success("Register Successful");
+                toast.success("login Successful");
                 navigate("/");
             } else {
                 toast.error(responseData.message? responseData.message: "Fill the Input properly")
@@ -52,25 +52,25 @@ const Register = () => {
     }
 
     return (
-        <div className='Register-container'>
-            <div className='Register-top'>National Institute of Technology Srinagar</div>
-            <div className='Register-container-wrapper'>
-                <div className='Register-container-2'>
+        <div className='login-container'>
+            <div className='login-top'>National Institute of Technology Srinagar</div>
+            <div className='login-container-wrapper'>
+                <div className='login-container-2'>
                     <img src={logo} alt="Logo" />
                     <h1>Registration Form</h1>
                     <form onSubmit={handleSubmit} >
-                        <div className='Register-container-3'>
+                        <div className='login-container-3'>
                             {/* <div className="input-group">
                                 <label htmlFor="role">Role</label>
-                                <select id="role" className='Register-Drop-box'>
+                                <select id="role" className='login-Drop-box'>
                                     <option value="student">Student</option>
                                     <option value="admin">Admin</option>
                                 </select>
                             </div> */}
-                            <div className="input-group">
-                                <label className='register-label' htmlFor="name">Name</label>
+                            {/* <div className="input-group"> */}
+                                <label className='login-label' htmlFor="name">Name</label>
                                 <input 
-                                className='register-input'
+                                className='login-input'
                                     type='text' 
                                     name='name'
                                     id='name'
@@ -79,11 +79,11 @@ const Register = () => {
                                     required
                                     onChange={handleInput}
                                 />
-                            </div>
-                            <div className="input-group">
-                                <label className='register-label' htmlFor="enrollment">Enrollment</label>
+                            {/* </div> */}
+                            {/* <div className="input-group"> */}
+                                <label className='login-label' htmlFor="enrollment">Enrollment</label>
                                 <input 
-                                    className='register-input'
+                                    className='login-input'
                                     type='text' 
                                     name='enrollment'
                                     id="enrollment" 
@@ -92,11 +92,11 @@ const Register = () => {
                                     value={user.enrollment}
                                     onChange={handleInput}
                                 />
-                            </div>
-                            <div className="input-group">
-                                <label className='register-label' htmlFor="username">Username</label>
+                            {/* </div> */}
+                            {/* <div className="input-group"> */}
+                                <label className='login-label' htmlFor="username">Username</label>
                                 <input 
-                                className='register-input'
+                                className='login-input'
                                     type='text' 
                                     name='username'
                                     id="username"
@@ -105,11 +105,11 @@ const Register = () => {
                                     value={user.username}
                                     onChange={handleInput}
                                 />
-                            </div>
-                            <div className="input-group">
-                                <label className='register-label' htmlFor="password">Password</label>
+                            {/* </div> */}
+                            {/* <div className="input-group"> */}
+                                <label className='login-label' htmlFor="password">Password</label>
                                 <input 
-                                className='register-input'
+                                className='login-input'
                                     type='password' 
                                     id='password'
                                     name='password'
@@ -118,9 +118,9 @@ const Register = () => {
                                     value={user.password}
                                     onChange={handleInput}
                                 />
-                            </div>
+                            {/* </div> */}
                         </div>                 
-                        <button id='register-btn' type='submit' className='submit btn'>Submit</button>
+                        <button id='login-btn' type='submit' className='submit btn'>Submit</button>
                     </form>
                 </div>
             </div>

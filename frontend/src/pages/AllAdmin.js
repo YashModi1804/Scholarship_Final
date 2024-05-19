@@ -203,7 +203,7 @@ const AllAdmin = () => {
           <div className="admin-container-content-1">
             <div className="admin-sidebar">
               <div className="admin-sidebar-content">
-                <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Sumit</div>
+                <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Admin</div>
                 <div className="line"><PiStudent /> Student Details</div>
                 <div className="line" onClick={handleStatusPage}><SiStatuspage /> Status</div>
                 <div className="line" onClick={handleBankDetail}><CiBank /> Bank's Details</div>

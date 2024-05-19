@@ -125,7 +125,7 @@ span {
 }
 .btn {
     margin-left: 0.3rem;
-    background-color: #4285f4;
+    background-color: #007bff;
     cursor: pointer;
     color: white;
     padding: 5px;
@@ -141,8 +141,8 @@ span {
     opacity: 1;
     /* transform: scale(1.01); */
     background-color: transparent;
-    border: 2px solid #4285f4;
-    color: #4285f4;
+    border: 2px solid #007bff;
+    color: #007bff;
 }
 
 .btn-action {
@@ -150,7 +150,7 @@ span {
 }
 .btn-processed {
     background-color: transparent;
-    color: #4285f4;
+    color: #007bff;
     cursor: not-allowed;
 }
 .btn-locked {
@@ -187,7 +187,7 @@ span {
 table {
   margin: 4rem auto;
   border-radius: 0.5rem;
-  border: 1rem hidden #004085;
+  border: 1rem hidden #007bff;
   border-collapse: collapse;
   box-shadow: 0 0 0 1px black;
   overflow: hidden;
@@ -203,7 +203,7 @@ li, p, a, td{
 
 thead {
   /* font-size: 0.8rem; */
-  background-color: #004085;
+  background-color: #007bff;
   color: #fff;
   padding-top: 2rem;
 }
@@ -211,7 +211,7 @@ thead {
 th,
 td {
   max-width: 11rem;
-  border: 1px solid #004085;
+  border: 1px solid #007bff;
   background-color: whitesmoke;
   color: black;
   min-width: 2rem;
@@ -221,7 +221,7 @@ td {
 }
 th {
   border: 1px solid white;
-  background-color: #004085;
+  background-color: #007bff;
   font-size: 1rem;
 }
 

@@ -13,17 +13,32 @@ const BankAcc = () => {
   });
   const [user_longs, setUser_long] = useState([]);
   const [editIndex, setEditIndex] = useState(null); // Store the index of the row being edited
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(()=> {
-    axios.get('/getStudents')
-  .then(response => {
-    const studentsArray = Object.values(response.data); // Convert object values to array
-    console.log(studentsArray);
-    setUser_long(studentsArray);
-  })
-  .catch(err => console.log(err));
-  },[]);
-  
+  useEffect(() => {
+    const fetchScholarshipDetails = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        console.log('Fetching supervisor for userId:', userId);
+        const response = await axios.get(`/api/get_supervisor/${userId}`);
+        const { name, department } = response.data;
+        console.log('Supervisor data:', response.data);
+
+        console.log('Fetching scholarship details');
+        const studentsResponse = await axios.get('/getScholarshipDetail');
+        console.log('All students data:', studentsResponse.data);
+
+        const filteredStudents = studentsResponse.data.filter(student => (student.supervisor === name && student.branch === department));
+        console.log('Filtered students:', filteredStudents);
+
+        setUser_long(filteredStudents); // Assuming response.data is an array of student details
+      } catch (error) {
+        console.error('Error fetching scholarship details:', error);
+      }
+    };
+
+    fetchScholarshipDetails();
+  }, []);
 
   const handleInputChange = (e, index) => {
     let name = e.target.name;
@@ -31,19 +46,19 @@ const BankAcc = () => {
 
     setFormData({
       ...formData,
-      [name]:value,
-    })
-  }
+      [name]: value,
+    });
+  };
 
   const handleEdit = (index) => {
     setEditIndex(index);
     // Set the form data to the values of the row being edited
     setFormData(user_longs[index]);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     
+
     try {
       const response = await fetch(URL, {
         method: "PUT",
@@ -58,8 +73,8 @@ const BankAcc = () => {
           dateOfJoining: formData.dateOfJoining
         }),
       });
-      
-      if(response.ok) {
+
+      if (response.ok) {
         setFormData({
           bankName: '',
           accountNo: '',
@@ -76,7 +91,7 @@ const BankAcc = () => {
       console.log("error: ", error);
     }
   };
- 
+
   function dateHandle(dateStr) {
     console.log(dateStr);
     const date = new Date(dateStr);
@@ -94,30 +109,30 @@ const BankAcc = () => {
           <div className='status-content-1 admin-content-1'>
             <div className="status-session status-session-content ">
               <label htmlFor="session"><span>*</span>Admission Batch</label>
-              <select  className='session-Drop-box drop-box'>
+              <select className='session-Drop-box drop-box'>
                 <option value="session">2024</option>
                 <option value="session">2023</option>
               </select>
             </div>
             <div className="status-year status-session-content">
               <label htmlFor="year"><span>*</span>Degree</label>
-              <select  className='year-Drop-box drop-box'>
+              <select className='year-Drop-box drop-box'>
                 <option value="student">PHD</option>
               </select>
             </div>
             <div className="status-month status-session-content">
               <label htmlFor="month"><span>*</span>Branch</label>
-              <select  className='month-Drop-box drop-box'>
+              <select className='month-Drop-box drop-box'>
                 <option value="student">Computer Science Engineer</option>
               </select>
             </div>
           </div>
         </div>
         <div className="admin-buttons">
-          <button className='btn' >Show</button>
-          <button className='btn' >Report</button>
-          <button className='btn' >Account Not Updated</button>
-          <button className='btn' >Clear</button>
+          <button className='btn'>Show</button>
+          <button className='btn'>Report</button>
+          <button className='btn'>Account Not Updated</button>
+          <button className='btn'>Clear</button>
         </div>
       </div>
       <form onSubmit={handleSubmit}>
@@ -150,8 +165,8 @@ const BankAcc = () => {
                   />
                 </td>
                 <td>
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     name='accountNo'
                     placeholder='Account Number'
                     value={index === editIndex ? formData.accountNo : user.accountNo}
@@ -161,7 +176,7 @@ const BankAcc = () => {
                   />
                 </td>
                 <td>
-                  <input 
+                  <input
                     type="text"
                     name='ifscCode'
                     placeholder='IFSC Code'
@@ -172,12 +187,12 @@ const BankAcc = () => {
                   />
                 </td>
                 <td>
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     name='dateOfJoining'
                     value={index === editIndex ? formData.dateOfJoining : dateHandle(user.dateOfJoining)}
                     required
-                    disabled
+                    disabled={index !== editIndex}
                     onChange={(e) => handleInputChange(e, index)}
                   />
                 </td>
@@ -191,7 +206,7 @@ const BankAcc = () => {
               </tr>
             ))}
           </tbody>
-        </table> 
+        </table>
       </form>
     </>
   )
