@@ -91,6 +91,7 @@ app.get('/getUsers', (req, res) => {
 
 app.get('/getStudents', (req, res) => {
     ScholarshipDetail.find()
+    
     .then(ScholarshipDetail => res.json(ScholarshipDetail))
     .catch(err => res.json(err))
 });
