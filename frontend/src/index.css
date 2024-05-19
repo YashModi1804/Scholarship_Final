@@ -208,6 +208,7 @@
   justify-content: center;
   /* align-items: center; */
 }
+
 .home-section {
   display: flex;
   margin-top: 10%;
@@ -232,10 +233,17 @@
   align-items: center;
   flex-direction: column;
 }
+.home-section-common:hover {
+  transform: scale(1.02);
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  -o-transform: scale(1.02);
+}
 
 .home-logo {
   font-size: 10rem;
-  color: #4285f4;
+  color: #007bff;
 }
 #home-logo-admin {
   font-size: 10rem;
