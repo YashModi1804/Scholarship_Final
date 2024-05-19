@@ -25,6 +25,7 @@ const AllAdmin = () => {
     semester: '',
     branch: '',
     bankAccount: '',
+    month:'',
     totalDays: '',
     entitlement: '',
     actualScholarship: '',
@@ -105,6 +106,7 @@ const AllAdmin = () => {
           semester: '',
           branch: '',
           bankAccount: '',
+          month:'',
           totalDays: '',
           entitlement: '',
           actualScholarship: '',
@@ -246,6 +248,7 @@ const AllAdmin = () => {
                   <th>Branch</th>
                   <th>Semester</th>
                   <th>Bank A/C</th>
+                  <th>Month</th>
                   <th>Total Days</th>
                   <th>Entitlement</th>
                   <th>Actual Scholarship</th>
@@ -262,6 +265,7 @@ const AllAdmin = () => {
                     <td>{student.branch}</td>
                     <td>IV</td>
                     <td>{student.accountNo}</td>
+                    <td>May</td>
                     <td><input
                       type="number"
                       name='totalDays'

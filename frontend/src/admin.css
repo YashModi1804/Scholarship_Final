@@ -246,7 +246,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* status */
 .status-container {
-    height: 40vh;
+    height: 50vh;
 }
 .status-text p{
     margin-left: 10px;

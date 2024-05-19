@@ -81,18 +81,30 @@ const UserSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    verification_registrar:{
+    verification_sectionHead: {
+        type:Boolean,
+        default: false
+    },
+    verification_AssistantRegistrar:{
         type:Boolean,
         default:false
     },
+    verification_DRAccountant: {
+        type:Boolean,
+        default:false
+    },
+    month: {
+        type:String,
+        default:""
+    }
 });
 
 
-UserSchema.pre('save', function (next) {
-    this.hra = 0.18 * this.actualScholarship;
-    this.netAmount = this.hra + this.actualScholarship;
-    next();
-});
+// UserSchema.pre('save', function (next) {
+//     this.hra = 0.18 * this.actualScholarship;
+//     this.netAmount = this.hra + this.actualScholarship;
+//     next();
+// });
 
 UserSchema.pre('save', function(next) {
     const programme = "PHD";
