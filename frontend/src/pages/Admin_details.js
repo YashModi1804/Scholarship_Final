@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-const URL="https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app/api/admin_details/admin/create"
+const URL="http://localhost:8800/api/admin_details/admin/create"
 const AdminForm = () => {
     const [formData, setFormData] = useState({
         username: '',

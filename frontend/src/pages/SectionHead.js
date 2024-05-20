@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {toast, useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import month from 'months';
@@ -90,8 +90,10 @@ const Admin = () => {
                 )
             );
             console.log('Toggling verification for student ID:', id);
+            toast.success("Verification Successful");
         } catch (error) {
             console.error('Error updating verification status:', error);
+            toast.error("Internal Error");
         }
     };
 
@@ -162,7 +164,7 @@ const Admin = () => {
                             <th>Net Amount</th>
                             <th>Supervisor</th>
                             <th>Student Verification</th>
-                            <th>Check</th>
+                            {/* <th>Check</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -181,13 +183,23 @@ const Admin = () => {
                                 <td>{detail.netAmount}</td>
                                 <td>{detail.supervisor}</td>
                                 <td>
-                                    {detail.verification_dean && (
+                                    {/* {detail.verification_dean && (
                                         <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_sectionHead}>
                                             Verify
                                         </button>
-                                    )}
+                                    )} */}
+                                    {
+                                    detail.verification_dean? (
+                                        detail.verification_sectionHead?
+                                        (<button className='btn' style={{backgroundColor:'transparent', color: '#4285f4', cursor:'not-allowed' }}>
+                                            Verified
+                                        </button>):
+                                        (<button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_sectionHead} className='btn'>
+                                        Verify
+                                        </button>)
+                                    ):""}
                                 </td>
-                                <td>{detail.verification_sectionHead ? 'Verified' : 'Not Verified'}</td>
+                                {/* <td>{detail.verification_sectionHead ? 'Verified' : 'Not Verified'}</td> */}
                             </tr>
                         ))}
                     </tbody>

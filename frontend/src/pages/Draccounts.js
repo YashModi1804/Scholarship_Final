@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import month from 'months';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
+import { toast } from 'react-toastify';
 
 const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
@@ -90,8 +91,10 @@ const Admin = () => {
                 )
             );
             console.log('Toggling verification for student ID:', id);
+            toast.success("Verification Successful");
         } catch (error) {
             console.error('Error updating verification status:', error);
+            toast.error("Internal Error");
         }
     };
 
@@ -162,7 +165,7 @@ const Admin = () => {
                             <th>Net Amount</th>
                             <th>Supervisor</th>
                             <th>Student Verification</th>
-                            <th>Check</th>
+                            {/* <th>Check</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -181,13 +184,23 @@ const Admin = () => {
                                 <td>{detail.netAmount}</td>
                                 <td>{detail.supervisor}</td>
                                 <td>
-                                    {detail.verification_AssistantRegistrar && (
+                                    {/* {detail.verification_AssistantRegistrar && (
                                         <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_DRAccountant}>
                                             Verify
                                         </button>
-                                    )}
+                                    )} */}
+                                    {
+                                    detail.verification_AssistantRegistrar? (
+                                        detail.verification_DRAccountant?
+                                        (<button className='btn' style={{backgroundColor:'transparent', color: '#4285f4', cursor:'not-allowed' }}>
+                                            Verified
+                                        </button>):
+                                        (<button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_DRAccountant} className='btn'>
+                                        Verify
+                                        </button>)
+                                    ):""}
                                 </td>
-                                <td>{detail.verification_DRAccountant ? 'Verified' : 'Not Verified'}</td>
+                                {/* <td>{detail.verification_DRAccountant ? 'Verified' : 'Not Verified'}</td> */}
                             </tr>
                         ))}
                     </tbody>

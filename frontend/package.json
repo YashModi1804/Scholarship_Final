@@ -46,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app"
+  "proxy": "http://localhost:8800"
 }

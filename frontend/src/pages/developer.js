@@ -4,7 +4,7 @@ import axios from 'axios';
 import './developer.css'; // Import CSS file
 import { toast } from 'react-toastify';
 
-const URL = "https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app/api/developer/students_data";
+const URL = "http://localhost:8800/api/developer/students_data";
 
 
 const InsertStudentData = () => {

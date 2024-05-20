@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {toast, useState, useEffect } from 'react';
 import axios from 'axios';
 import month from 'months';
 
@@ -33,8 +33,10 @@ const ScholarshipDetails = ({ enrollment }) => {
             const updatedResponse = await axios.put(`/api/update_student_verification/verify/${details._id}`);
             const updatedDetails = { ...details, verification_student: true }; // Assuming the verification_student field should be set to true after verification
             setDetails(updatedDetails);
+            toast.success("Verification Successful");
         } catch (error) {
             console.error('Error updating verification status:', error);
+            toast.error("Internal Error");
         }
     };
     

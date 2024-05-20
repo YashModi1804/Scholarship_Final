@@ -26,7 +26,7 @@ import cors from "cors"
 const app = express();
 
 const corsOptions = {
-    origin: "https://scholarship-final-frontend.vercel.app",
+    origin: "http://localhost:3000",
     methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
     credentials: true,
 };
