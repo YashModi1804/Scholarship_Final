@@ -12,7 +12,7 @@ import month from 'months';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 
 
-const URL = "http://localhost:8800/api/studentDetails/scholarshipDetail";
+const URL = "https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app/api/studentDetails/scholarshipDetail";
 
 const AllAdmin = () => {
   const [scholarshipDetail, setScholarshipDetail] = useState([]);

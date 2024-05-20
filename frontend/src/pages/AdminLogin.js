@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from '../image/logo.png';
-const URL = "http://localhost:8800/api/admin_details/admin/login";
+const URL = "https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app/api/admin_details/admin/login";
 
 const AdminLogin = () => {
     const [user, setUser] = useState({

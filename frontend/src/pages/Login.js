@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 import logo from '../image/logo.png';
-const URL = "http://localhost:8800/api/auth/signin";
+const URL = "https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app/api/auth/signin";
 
 const Login = () => {
     const [user, setUser] = useState({
