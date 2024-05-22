@@ -41,13 +41,17 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default:"",
     },
+    checked: { 
+        type: Boolean, 
+        default: false
+    },
     totalDays: {
         type: Number,
         default:"",
     },
     entitlement: {
         type: Number,
-        default: 0,
+        default: 37000,
     },
     actualScholarship: {
         type: Number,

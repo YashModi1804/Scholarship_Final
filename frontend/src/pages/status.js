@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import logo from '../image/logo.png';
 
 const Status = () => {
   const [students, setStudents] = useState([]);
@@ -31,21 +32,33 @@ const Status = () => {
       // Create a PDF with the fetched data
       let pdfContent = `
         <div id="pdf-content">
-          <h2>Scholarship Apply Student List</h2>
-          <table border="1" cellspacing="0" cellpadding="5">
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Student Name</th>
-                <th>Enrollment No.</th>
-                <th>Branch Name</th>
-                <th>Supervisor</th>
-                <th>HOD</th>
-                <th>Associate Dean</th>
-                <th>Dean</th>
-                <th>Section Head</th>
-                <th>Assistant Registrar</th>
-                <th>DR Accountants</th>
+        <div style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; margin-bottom: 2px; border-bottom: 2px solid black">
+          <div><img id="status-logo" src=${logo} alt="Logo"></img></div>
+          <div style="text-align:center">
+            <h1 style="font-size: 25px; letter-spacing: 1; margin-top: -5px">NATIONAL INSTITUTE OF TECHNOLOGY SRINAGAR</h1>
+            <p style="font-size: 18px;">Hazratbal, Srinagar, Kashmir, 190006, J&K, India </p>
+          </div>
+          <br style="color: black; font-size:5px;" />
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;"><h1 style="font-size: 22px;">Scholarship Status</h1></div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: -40px;"> 
+          <p style="font-size: 18px;"><span id="status-span">Session:</span>Spring 2024</p>
+          <p style="font-size: 18px;"><span id="status-span">Month/Year:</span>May/2024</p>
+        </div>
+          <table border="1" cellspacing="0" cellpadding="5" id="status-table">
+            <thead id="status-thead">
+              <tr id="status-tr">
+                <th id="status-td">S.No.</th>
+                <th id="status-td">Student Name</th>
+                <th id="status-td">Enrollment No.</th>
+                <th id="status-td">Branch Name</th>
+                <th id="status-td">Supervisor</th>
+                <th id="status-td">HOD</th>
+                <th id="status-td">Associate Dean</th>
+                <th id="status-td">Dean</th>
+                <th id="status-td">Section Head</th>
+                <th id="status-td">Assistant Registrar</th>
+                <th id="status-td">DR Accountants</th>
               </tr>
             </thead>
             <tbody>
@@ -53,18 +66,18 @@ const Status = () => {
 
       students.forEach((student, index) => {
         pdfContent += `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${student.name}</td>
-            <td>${student.enrollment}</td>
-            <td>${student.branch}</td>
-            <td style="color: ${student.verification_supervisor ? 'black' : 'red'};">${student.verification_supervisor ? 'Approved' : 'Pending'}</td>
-            <td style="color: ${student.verification_hod ? 'black' : 'red'};">${student.verification_hod ? 'Approved' : 'Pending'}</td>
-            <td style="color: ${student.verification_adean ? 'black' : 'red'};">${student.verification_adean ? 'Approved' : 'Pending'}</td>
-            <td style="color: ${student.verification_dean ? 'black' : 'red'};">${student.verification_dean ? 'Approved' : 'Pending'}</td>
-            <td style="color: ${student.verification_sectionHead ? 'black' : 'red'};">${student.verification_sectionHead ? 'Approved' : 'Pending'}</td>
-            <td style="color: ${student.verification_AssistantRegistrar ? 'black' : 'red'};">${student.verification_AssistantRegistrar ? 'Approved' : 'Pending'}</td>
-            <td style="color: ${student.verification_DRAccountant ? 'black' : 'red'};">${student.verification_DRAccountant ? 'Approved' : 'Pending'}</td>
+          <tr id="status-tr">
+            <td id="status-td">${index + 1}</td>
+            <td id="status-td">${student.name}</td>
+            <td id="status-td">${student.enrollment}</td>
+            <td id="status-td">${student.branch}</td>
+            <td id="status-td" style="color: ${student.verification_supervisor ? 'green' : 'red'};">${student.verification_supervisor ? 'Approved' : 'Pending'}</td>
+            <td id="status-td" style="color: ${student.verification_hod ? 'green' : 'red'};">${student.verification_hod ? 'Approved' : 'Pending'}</td>
+            <td id="status-td" style="color: ${student.verification_adean ? 'green' : 'red'};">${student.verification_adean ? 'Approved' : 'Pending'}</td>
+            <td id="status-td" style="color: ${student.verification_dean ? 'green' : 'red'};">${student.verification_dean ? 'Approved' : 'Pending'}</td>
+            <td id="status-td" style="color: ${student.verification_sectionHead ? 'green' : 'red'};">${student.verification_sectionHead ? 'Approved' : 'Pending'}</td>
+            <td id="status-td" style="color: ${student.verification_AssistantRegistrar ? 'green' : 'red'};">${student.verification_AssistantRegistrar ? 'Approved' : 'Pending'}</td>
+            <td id="status-td" style="color: ${student.verification_DRAccountant ? 'green' : 'red'};">${student.verification_DRAccountant ? 'Approved' : 'Pending'}</td>
           </tr>
         `;
       });

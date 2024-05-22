@@ -33,7 +33,7 @@ import mongoose from "mongoose";
 
 export const updateScholarshipDetails = async(req, res) => {
     try {
-        const {name, enrollment, branch, semester, month, totalDays, entitlement, actualScholarship, hra, netAmount, verification_supervisor, validation_supervisor} = req.body;
+        const {name, enrollment, branch, semester, month, checked, totalDays, entitlement, actualScholarship, hra, netAmount, verification_supervisor, validation_supervisor} = req.body;
         const postDetail = new ScholarshipDetail({...req.body});
 
         const scholar = await ScholarshipDetail.findOne({enrollment});
@@ -45,7 +45,7 @@ export const updateScholarshipDetails = async(req, res) => {
             scholar.enrollment = req.body.enrollment;
             scholar.branch = req.body.branch;
             scholar.semester = req.body.semester;
-            // scholar.bankAccount = req.body.bankAccount;
+            scholar.checked = req.body.checked;
             scholar.month = req.body.month;
             scholar.totalDays = req.body.totalDays;
             scholar.entitlement = req.body.entitlement;

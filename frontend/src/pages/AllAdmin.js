@@ -10,9 +10,10 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import month from 'months';
 import * as XLSX from 'xlsx'; // Import the xlsx library
+import daysInMonth from '@stdlib/time-days-in-month' ;
 
 
-const URL = "https://scholarship-final-8dvfo73yu-sumits-projects-80550df8.vercel.app/api/studentDetails/scholarshipDetail";
+const URL = "http://localhost:8800/api/studentDetails/scholarshipDetail";
 
 const AllAdmin = () => {
   const [scholarshipDetail, setScholarshipDetail] = useState([]);
@@ -32,6 +33,7 @@ const AllAdmin = () => {
     hra: '',
     netAmount: '',
     verification_supervisor: ''
+    
   });
   const [loading, setLoading] = useState(true);
 
@@ -112,6 +114,7 @@ const AllAdmin = () => {
           actualScholarship: '',
           hra: '',
           netAmount: ''
+
         });
         toast.success("Update Successful");
         setEditIndex(null);
@@ -195,6 +198,24 @@ const AllAdmin = () => {
     return <div>Loading...</div>;
   }
 
+  const handleCheckboxChange = (index) => {
+    const currentTotalDays = daysInMonth(new Date().getMonth() + 1, new Date().getFullYear());
+    const entitlementValue = parseFloat(scholarshipDetail[index]?.entitlement || 0);
+
+    const actualScholarshipValue = entitlementValue;
+    const hraValue = actualScholarshipValue * 0.18;
+    const netAmountValue = actualScholarshipValue + hraValue;
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      checked: !prevFormData.checked,
+      totalDays: currentTotalDays,
+      actualScholarship: actualScholarshipValue.toFixed(2),
+      hra: hraValue.toFixed(2),
+      netAmount: netAmountValue.toFixed(2)
+    }));
+  };
+
   return (
     <>
       <div className='admin-container'>
@@ -248,7 +269,7 @@ const AllAdmin = () => {
                   <th>Branch</th>
                   <th>Semester</th>
                   <th>Bank A/C</th>
-                  <th>Month</th>
+                  <th>Full</th>
                   <th>Total Days</th>
                   <th>Entitlement</th>
                   <th>Actual Scholarship</th>
@@ -265,7 +286,11 @@ const AllAdmin = () => {
                     <td>{student.branch}</td>
                     <td>IV</td>
                     <td>{student.accountNo}</td>
-                    <td>May</td>
+                    <td><input 
+                      type="checkbox"
+                      checked={index === editIndex? formData.checked: student.checked}
+                      onChange={() => handleCheckboxChange(index)}
+                    /></td>
                     <td><input
                       type="number"
                       name='totalDays'
