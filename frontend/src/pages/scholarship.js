@@ -1,7 +1,8 @@
-import React, {toast, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import month from 'months';
 
+import { toast } from 'react-toastify';
 const ScholarshipDetails = ({ enrollment }) => {
     const [details, setDetails] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -20,7 +21,6 @@ const ScholarshipDetails = ({ enrollment }) => {
                 setLoading(false);
             }
         };
-
         fetchScholarshipDetails();
     }, [enrollment]);
 
