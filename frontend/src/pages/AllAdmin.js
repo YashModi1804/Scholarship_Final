@@ -190,7 +190,7 @@ const AllAdmin = () => {
             <td id="status-td">${student.hra}</td>
             <td id="status-td">${student.netAmount}</td>
             <td id="status-td">${student.supervisor}</td>
-            <td id="status-td">${student.verification_supervisor? "Approved": "Processed"}</td>
+            <td id="status-td" style="color: ${student.verification_supervisor ? 'green' : 'red'};">${student.verification_supervisor? "Approved": "Pending"}</td>
           </tr>
         `;
       });
@@ -323,27 +323,27 @@ pdf.save('scholarship_status.pdf');
             <div className="admin-sidebar">
               <div className="admin-sidebar-content">
                 <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Admin</div>
-                <div className="line"><PiStudent /> Student Details</div>
-                <div className="line" onClick={handleStatusPage}><SiStatuspage /> Status</div>
+                <div className="line"><PiStudent /> Student Details</div> 
+                <div className="line" onClick={handleStatusPage}><SiStatuspage /> Status</div> 
                 <div className="line" onClick={handleBankDetail}><CiBank /> Bank's Details</div>
               </div>
             </div>
           </div>
           <div className="admin-container-content-2">
             <div className="admin-content">
-              <div className='admin-content-1'>
-                <label htmlFor="session"><span>*</span>Session</label>
-                <select className='session-Drop-box drop-box'>
+              <div className='admin-content-1' id="admin-content-supervisor">
+                <label htmlFor="session" className='supervisor-label'><span>*</span>Session:</label>
+                <select className='session-Drop-box drop-box supervisor-select' >
                   <option value="session">SPRING 2024</option>
                   <option value="session">AUTUMN 2024</option>
                 </select>
-                <label htmlFor="year"><span>*</span>Year</label>
-                <select className='year-Drop-box drop-box'>
+                <label htmlFor="year" className='supervisor-label'><span>*</span>Year:</label>
+                <select className='year-Drop-box drop-box supervisor-select'>
                   <option value="student">2024</option>
                   <option value="admin">2023</option>
                 </select>
-                <label htmlFor="month"><span>*</span>Month</label>
-                <select className='month-Drop-box drop-box'>
+                <label htmlFor="month" className='supervisor-label'><span>*</span>Month:</label>
+                <select className='month-Drop-box drop-box supervisor-select'>
                   <option value="student">April</option>
                   <option value="admin">March</option>
                 </select>

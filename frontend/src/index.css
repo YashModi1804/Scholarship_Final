@@ -19,7 +19,7 @@
 }
 .login-container-2{
   border: 2px solid rgb(255, 255, 255);
-  border-top-color: #007bff;
+  border-top-color: rgb(100, 224, 224);
   border-radius: 0.75vi;
   display: flex;
   flex-direction: column;
@@ -61,7 +61,7 @@
 }
 .login-container-2 .register{
   font-size: medium;
-  background-color: #007bff;
+  background-color: rgb(100, 224, 224);
   border: none;
   border-radius: 0.3vi;
   width: 8vi;
@@ -104,7 +104,7 @@
   height: 4vh;
   padding: right;
   align-items: flex-start;
-  color: #007bff;
+  color: rgb(100, 224, 224);
 }
 
 
@@ -135,7 +135,7 @@
   padding-top: 2vh;
   margin-bottom: 6vh;
   background-color: white;
-  border-top-color: #007bff;
+  border-top-color: rgb(100, 224, 224);
   margin-top: 4vh;
 }
 .Register-container-2 h1{
@@ -190,7 +190,7 @@
   height: 4vh;
   padding-right: 1vh;
   align-items: flex-start;
-  color: #007bff;
+  color: rgb(100, 224, 224);
 }
 #name{
   /* margin-left: 3.8vi; */
@@ -206,7 +206,13 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  /* flex-direction: column; */
   /* align-items: center; */
+  /* background-color: rgb(219, 219, 219); */
+}
+.home-container-main {
+  background-color: rgb(219, 219, 219);
+  height: 100vh;
 }
 
 .home-section {
@@ -217,12 +223,13 @@
   gap: 10px;
   width: 600px;
   height: 300px;
-  background-color: whitesmoke;
+  background-color: white;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  border-top:2px solid rgb(100, 224, 224);
 }
 .home-section-common {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -234,19 +241,23 @@
   flex-direction: column;
 }
 .home-section-common:hover {
-  transform: scale(1.02);
-  -webkit-transform: scale(1.02);
-  -moz-transform: scale(1.02);
-  -ms-transform: scale(1.02);
-  -o-transform: scale(1.02);
+   
+   box-shadow: 0 2px 4px rgb(100, 224, 224);
+}
+.home-section-text {
+  font-weight: bold;
+}
+.home-section-text:hover {
+  color: rgb(100, 224, 224);
 }
 
 .home-logo {
-  font-size: 10rem;
-  color: #007bff;
+  font-size: 8rem;
+  color: rgb(100, 224, 224);
 }
+
 #home-logo-admin {
-  font-size: 10rem;
+  font-size: 8rem;
 }
 
 /***** End home-section *****/
@@ -275,7 +286,7 @@
 }
 #status-thead {
   /* font-size: 0.8rem; */
-  /* background-color: #007bff; */
+  /* background-color: rgb(100, 224, 224); */
   /* color: #fff; */
   padding-top: 2rem;
 }
@@ -303,3 +314,29 @@
  font-weight: bold;
  color: black;
 }
+
+
+/***** header *****/ 
+
+.header-container {
+  display: flex;
+  /* justify-content: space-between; */
+  background-color: whitesmoke;
+  height: 13vh;
+}
+.header-logo img {
+  margin-top: 5px;
+  height: 75px;
+  width: 75px;
+}
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-content h1 {
+  font-size: 3rem;
+  word-spacing: 1;
+}
+
+/***** End header *****/

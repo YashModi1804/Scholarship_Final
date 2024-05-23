@@ -8,7 +8,7 @@
     padding: right;
     align-items: flex-start;
     color: black;
-    background-color: #007bff;
+    background-color: rgb(100, 224, 224);
     font-size: 1.5rem;
     font-weight: bold;
   }
@@ -36,6 +36,7 @@
     font-size: 1.2rem;
     height: 6vh;
     margin: 1rem;
+    border-bottom: 2px solid rgb(100, 224, 224);
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -60,7 +61,7 @@ br {
 }
 
 .line:hover {
-    background-color: #007bff;
+    background-color: rgb(100, 224, 224);
 }
 .current-admin:hover {
     background-color: whitesmoke;
@@ -72,7 +73,7 @@ br {
     margin-bottom: 8px;
 }
 .br {
-    color: blue;
+    color: rgb(100, 224, 224);
 }
 .admin-container-content-2 {
     margin: 1rem;
@@ -98,6 +99,10 @@ br {
     flex-direction: column;
     padding: 20px;
 }
+#admin-content-supervisor {
+    display: flex;
+    flex-direction: row;
+}
 .admin-content-2 {
     display: flex;
     flex-direction: column;
@@ -115,6 +120,16 @@ span {
     width: 18rem;
     font-weight: 300;
 }
+.supervisor-label {
+    margin-left: 10px;
+}
+.supervisor-select {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 5px;
+    width: 15rem;
+    height: 2rem;
+}
 
 .admin-buttons {
     display: flex;
@@ -125,7 +140,7 @@ span {
 }
 .btn {
     margin-left: 0.3rem;
-    background-color: #007bff;
+    background-color: rgb(100, 224, 224);
     cursor: pointer;
     color: white;
     padding: 5px;
@@ -141,8 +156,8 @@ span {
     opacity: 1;
     /* transform: scale(1.01); */
     background-color: transparent;
-    border: 2px solid #007bff;
-    color: #007bff;
+    border: 2px solid rgb(100, 224, 224);
+    color: rgb(100, 224, 224);
 }
 
 .btn-action {
@@ -150,7 +165,7 @@ span {
 }
 .btn-processed {
     background-color: transparent;
-    color: #007bff;
+    color: rgb(100, 224, 224);
     cursor: not-allowed;
 }
 .btn-locked {
@@ -187,7 +202,7 @@ span {
 table {
   margin: 4rem auto;
   border-radius: 0.5rem;
-  border: 1rem hidden #007bff;
+  border: 1rem hidden rgb(100, 224, 224);
   border-collapse: collapse;
   box-shadow: 0 0 0 1px black;
   overflow: hidden;
@@ -203,7 +218,7 @@ li, p, a, td{
 
 thead {
   /* font-size: 0.8rem; */
-  background-color: #007bff;
+  background-color: rgb(100, 224, 224);
   color: #fff;
   padding-top: 2rem;
 }
@@ -211,7 +226,7 @@ thead {
 th,
 td {
   max-width: 11rem;
-  border: 1px solid #007bff;
+  border: 1px solid rgb(100, 224, 224);
   background-color: whitesmoke;
   color: black;
   min-width: 2rem;
@@ -221,7 +236,7 @@ td {
 }
 th {
   border: 1px solid white;
-  background-color: #007bff;
+  background-color: rgb(100, 224, 224);
   font-size: 1rem;
 }
 
