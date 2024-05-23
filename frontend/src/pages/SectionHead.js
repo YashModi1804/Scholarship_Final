@@ -5,6 +5,7 @@ import month from 'months';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import { toast } from 'react-toastify';
+let check_bulk=false;
 
 const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
@@ -91,13 +92,22 @@ const Admin = () => {
                 )
             );
             console.log('Toggling verification for student ID:', id);
+            if(!check_bulk)
             toast.success("Verification Successful");
         } catch (error) {
             console.error('Error updating verification status:', error);
             toast.error("Internal Error");
         }
     };
-
+    const handleVerifyAll = async () => {
+        for (const student of details) {
+            check_bulk=true;
+            if (!student.verification_sectionHead) {
+                await handleVerificationToggle(student._id);
+            }
+        }
+        toast.success("All students verified successfully"); // Show single toast notification
+    };
     if (loading) {
         return <p>Loading scholarship details...</p>;
     }
@@ -145,6 +155,7 @@ const Admin = () => {
                         <button className='btn' onClick={() => setShowTable(true)}>Show</button>
                         <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
                         <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+                        <button className='btn' onClick={handleVerifyAll}>Verify All</button>
                     </div>
                 </div>
             </div>

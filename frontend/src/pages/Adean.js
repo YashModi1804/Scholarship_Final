@@ -5,6 +5,7 @@ import month from 'months';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import { toast } from 'react-toastify';
+let check_bulk=false;
 
 const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
@@ -91,13 +92,31 @@ const Admin = () => {
                 )
             );
             console.log('Toggling verification for student ID:', id);
+            if(!check_bulk)
             toast.success("Verification Successful");
         } catch (error) {
             console.error('Error updating verification status:', error);
             toast.error("Internal Error");
         }
     };
+    const handleVerifyAll = async () => {
+        check_bulk = true; // Set check_bulk to true before starting bulk verification
+        try {
+            const verificationPromises = details.map(student => {
+                if (!student.verification_adean) {
+                    return handleVerificationToggle(student._id);
+                }
+                return null;
+            }).filter(Boolean); // Remove null values
 
+            await Promise.all(verificationPromises);
+            toast.success("All students verified successfully"); // Show single toast notification
+        } catch (error) {
+            toast.error("Error verifying all students");
+        } finally {
+            check_bulk = false; // Reset check_bulk to false after completing bulk verification
+        }
+    };
     if (loading) {
         return <p>Loading scholarship details...</p>;
     }
@@ -145,6 +164,7 @@ const Admin = () => {
                         <button className='btn' onClick={() => setShowTable(true)}>Show</button>
                         <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
                         <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+                        <button className='btn' onClick={handleVerifyAll}>Verify All</button>
                     </div>
                 </div>
             </div>

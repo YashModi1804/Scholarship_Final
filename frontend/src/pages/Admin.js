@@ -1,18 +1,15 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import jsPDF from 'jspdf';
 import month from 'months';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import { toast } from 'react-toastify';
-
-
-
+let check_bulk=false;
 const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
     const [loading, setLoading] = useState(true);
-    const [showTable, setShowTable] = useState(true);
-
+    const [bulkVerify, setBulkVerify] = useState(false); // State to track bulk verification
 
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
@@ -87,7 +84,7 @@ const Admin = () => {
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Scholarship Details');
         XLSX.writeFile(workbook, 'ScholarshipDetails.xlsx');
-      };
+    };
 
     const handleVerificationToggle = async (id) => {
         try {
@@ -98,14 +95,36 @@ const Admin = () => {
                 )
             );
             console.log('Toggling verification for student ID:', id);
-            toast.success("Verification Successful");
+
+            if (!check_bulk) {
+                toast.success("Verification Successful");
+            }
         } catch (error) {
             console.error('Error updating verification status:', error);
-            toast.error("Internal Error");
+            if (!bulkVerify) {
+                toast.error("Internal Error");
+            }
         }
     };
-     
 
+    const handleVerifyAll = async () => {
+        check_bulk = true; // Set check_bulk to true before starting bulk verification
+        try {
+            const verificationPromises = details.map(student => {
+                if (!student.verification_hod) {
+                    return handleVerificationToggle(student._id);
+                }
+                return null;
+            }).filter(Boolean); // Remove null values
+
+            await Promise.all(verificationPromises);
+            toast.success("All students verified successfully"); // Show single toast notification
+        } catch (error) {
+            toast.error("Error verifying all students");
+        } finally {
+            check_bulk = false; // Reset check_bulk to false after completing bulk verification
+        }
+    };
 
     if (loading) {
         return <p>Loading scholarship details...</p>;
@@ -113,45 +132,46 @@ const Admin = () => {
 
     return (
         <>
-        <div className='admin-top'>Scholarship Entry Page</div>
-        <div>
-        <div className="admin-container-content-2">
-            <div className="admin-content">
-              <div className='admin-content-1'>
-                <label htmlFor="session"><span>*</span>Session</label>
-                <select className='session-Drop-box drop-box'>
-                  <option value="session">SPRING 2024</option>
-                  <option value="session">AUTUMN 2024</option>
-                </select>
-                <label htmlFor="year"><span>*</span>Year</label>
-                <select className='year-Drop-box drop-box'>
-                  <option value="student">2024</option>
-                  <option value="admin">2023</option>
-                </select>
-                <label htmlFor="month"><span>*</span>Month</label>
-                <select className='month-Drop-box drop-box'>
-                  <option value="student">April</option>
-                  <option value="admin">March</option>
-                </select>
-              </div>
-              <div className='admin-content-2'>
-                <label htmlFor="degree"><span>*</span>Degree</label>
-                <select className='degree-Drop-box drop-box'>
-                  <option value="student">PhD</option>
-                </select>
-                <label htmlFor="branch"><span>*</span>Branch</label>
-                <select className='branch-Drop-box drop-box'>
-                  <option value="student">Computer Science Engineering</option>            
-                </select>
-              </div>
-                </div>
-                <div className="admin-buttons">
-                <button className='btn' onClick={() => setShowTable(true)}>Show</button>
-                <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
-                <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+            <div className='admin-top'>Scholarship Entry Page</div>
+            <div>
+                <div className="admin-container-content-2">
+                    <div className="admin-content">
+                        <div className='admin-content-1'>
+                            <label htmlFor="session"><span>*</span>Session</label>
+                            <select className='session-Drop-box drop-box'>
+                                <option value="session">SPRING 2024</option>
+                                <option value="session">AUTUMN 2024</option>
+                            </select>
+                            <label htmlFor="year"><span>*</span>Year</label>
+                            <select className='year-Drop-box drop-box'>
+                                <option value="student">2024</option>
+                                <option value="admin">2023</option>
+                            </select>
+                            <label htmlFor="month"><span>*</span>Month</label>
+                            <select className='month-Drop-box drop-box'>
+                                <option value="student">April</option>
+                                <option value="admin">March</option>
+                            </select>
+                        </div>
+                        <div className='admin-content-2'>
+                            <label htmlFor="degree"><span>*</span>Degree</label>
+                            <select className='degree-Drop-box drop-box'>
+                                <option value="student">PhD</option>
+                            </select>
+                            <label htmlFor="branch"><span>*</span>Branch</label>
+                            <select className='branch-Drop-box drop-box'>
+                                <option value="student">Computer Science Engineering</option>            
+                            </select>
+                        </div>
+                    </div>
+                    <div className="admin-buttons">
+                        {/* <button className='btn' onClick={() => setShowTable(true)}>Show</button> */}
+                        <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
+                        <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+                        <button className='btn' onClick={handleVerifyAll}>Verify All</button> {/* New button to verify all */}
+                    </div>
                 </div>
             </div>
-        </div>
             <div className="scholarship-details" id="pdf-table">
                 <table>
                     <thead>
@@ -188,24 +208,20 @@ const Admin = () => {
                                 <td>{detail.netAmount}</td>
                                 <td>{detail.supervisor}</td>
                                 <td>
-                                    {/* {detail.validation_supervisor && (
-                                        <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_hod} className='btn'>
-                                            Verify
-                                        </button>
-                                    )} */}
-                                    {
-                                    detail.validation_supervisor? (
-                                        detail.verification_hod?
-                                        (<button className='btn' style={{backgroundColor:'transparent', color: '#4285f4', cursor:'not-allowed' }}>
-                                            Verified
-                                        </button>):
-                                        (<button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_hod} className='btn'>
-                                        Verify
-                                        </button>)
-                                    ):""}
-
+                                    {detail.validation_supervisor ? (
+                                        detail.verification_hod ? (
+                                            <button className='btn' style={{ backgroundColor: 'transparent', color: '#4285f4', cursor: 'not-allowed' }}>
+                                                Verified
+                                            </button>
+                                        ) : (
+                                            <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_hod} className='btn'>
+                                                Verify
+                                            </button>
+                                        )
+                                    ) : (
+                                        ""
+                                    )}
                                 </td>
-                                {/* <td>{detail.verification_hod ? 'Verified' : 'Not Verified'}</td> */}
                             </tr>
                         ))}
                     </tbody>

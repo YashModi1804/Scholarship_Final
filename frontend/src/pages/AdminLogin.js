@@ -54,7 +54,7 @@ const AdminLogin = () => {
                  else if (responseData.position === 'aregistrar') {
                     navigate("/aregistrar");
                 }
-                 else if (responseData.position === 'draccountant') {
+                 else if (responseData.position === 'draccounts') {
                     navigate("/draccountant");
                 }
             } else {
