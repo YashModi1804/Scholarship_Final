@@ -11,6 +11,8 @@ import html2canvas from 'html2canvas';
 import month from 'months';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import daysInMonth from '@stdlib/time-days-in-month' ;
+import logo from '../image/logo.png';
+
 
 
 const URL = "http://localhost:8800/api/studentDetails/scholarshipDetail";
@@ -134,16 +136,112 @@ const AllAdmin = () => {
     setFormData(scholarshipDetail[index]);
   };
 
-  const handleDownloadPDF = () => {
-    const input = document.getElementById('pdf-table');
-    html2canvas(input).then((canvas) => {
+  const handleDownloadPDF = async () => {
+    if (scholarshipDetail.length === 0) return;
+
+    try {
+      // Create a PDF with the fetched data
+      let pdfContent = `
+        <div id="pdf-content">
+        <div style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; margin-bottom: 2px; border-bottom: 2px solid black">
+          <div><img id="status-logo" src=${logo} alt="Logo"></img></div>
+          <div style="text-align:center">
+            <h1 style="font-size: 25px; letter-spacing: 1; margin-top: -5px">NATIONAL INSTITUTE OF TECHNOLOGY SRINAGAR</h1>
+            <p style="font-size: 18px;">Hazratbal, Srinagar, Kashmir, 190006, J&K, India </p>
+          </div>
+          <br style="color: black; font-size:5px;" />
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;"><h1 style="font-size: 22px;">Scholarship Status</h1></div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: -40px;"> 
+          <p style="font-size: 18px;"><span id="status-span">Session:</span>Spring 2024</p>
+          <p style="font-size: 18px;"><span id="status-span">Month/Year:</span>May/2024</p>
+        </div>
+          <table border="1" cellspacing="0" cellpadding="5" id="status-table">
+          <thead id="status-thead">
+            <tr id="status-tr">
+              <th id="status-td">Reg No-Name</th>
+              <th id="status-td">Branch</th>
+              <th id="status-td">Semester</th>
+              <th id="status-td">Bank A/C</th>
+              <th id="status-td">Full</th>
+              <th id="status-td">Total Days</th>
+              <th id="status-td">Entitlement</th>
+              <th id="status-td">Actual Scholarship</th>
+              <th id="status-td">HRA @18% of Scholarship</th>
+              <th id="status-td">Net Amount</th>
+              <th id="status-td">Supervisor</th>
+              <th id="status-td">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+      `;
+
+      scholarshipDetail.map((student, index) => {
+        pdfContent += `
+          <tr id="status-tr">
+            <td id="status-td">${student.enrollment}-${student.name}</td>
+            <td id="status-td">${student.branch}</td>
+            <td id="status-td">IV</td>
+            <td id="status-td">${student.accountNo}</td>
+            <td id="status-td">${student.checked}</td>
+            <td id="status-td">${student.totalDays}</td>
+            <td id="status-td">${student.entitlement}</td>
+            <td id="status-td">${student.actualScholarship}</td>
+            <td id="status-td">${student.hra}</td>
+            <td id="status-td">${student.netAmount}</td>
+            <td id="status-td">${student.supervisor}</td>
+            <td id="status-td">${student.verification_supervisor? "Approved": "Processed"}</td>
+          </tr>
+        `;
+      });
+      
+
+      pdfContent += `
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      // Convert the HTML content to canvas
+      const container = document.createElement('div');
+      container.innerHTML = pdfContent;
+      container.style.position = 'absolute';
+      container.style.top = '-9999px';
+      document.body.appendChild(container);
+
+      const canvas = await html2canvas(container, { scale: 2 });
+      document.body.removeChild(container);
+
+      // Create a new jsPDF instance
+      const pdf = new jsPDF('p', 'pt', 'a4');
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF();
-      const imgWidth = 210;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save("download.pdf");
-    });
+
+      // Adjust width and height as per the content and canvas dimensions
+      const imgWidth = 595.28; // A4 width in points
+      const pageHeight = 841.89; // A4 height in points
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Open the PDF in a new window
+      const pdfBlob = pdf.output('blob');
+pdf.save('scholarship_status.pdf');
+
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
   };
 
   const handleDownloadExcel = () => {
