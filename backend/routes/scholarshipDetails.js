@@ -1,12 +1,12 @@
 // Import necessary modules
 import express from 'express';
 import { updateScholarshipDetails } from '../controllers/scholarshipDetails.js';
-
+import { updateBankDetails } from '../controllers/scholarshipDetails.js';
 // Initialize Express router
 const router = express.Router();
 
 router.put('/scholarshipDetail', updateScholarshipDetails);
-
+router.put('/bank_data', updateBankDetails);
 // Route to handle the request from the student to view scholarship details
 // router.get('/scholarship/:enrollment', async (req, res) => {
 //     const { enrollment } = req.params;

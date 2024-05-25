@@ -82,3 +82,17 @@ export const getScholarshipDetails= async(req, res) =>{
         res.status(500).json({ message: 'Internal server error: ' + error.message });
     }
 }
+export const updateBankDetails = async (req, res) => {
+    const { enrollment, bankName, accountNo, ifsc, dateOfJoining } = req.body;
+    try {
+      await ScholarshipDetail.findOneAndUpdate(
+        { enrollment },
+        { bankName, accountNo, ifsc, dateOfJoining },
+        { new: true, upsert: true } // Create a new document if not found
+      );
+      res.status(200).json({ message: 'Update Successful' });
+    } catch (error) {
+      console.error('Error updating bank details:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };

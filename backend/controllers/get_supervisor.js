@@ -27,3 +27,4 @@ export const getSupervisorDetails = async (req, res, next) => {
         next(createError(500, "Internal Server Error"));
     }
 };
+

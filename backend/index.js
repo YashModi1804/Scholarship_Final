@@ -22,6 +22,7 @@ import User from "./models/user.js";
 import admin3_verification from "./controllers/admin3_verification.js"
 // import Bank from "./models/bank.js";
 import ScholarshipDetail from "./models/scholarshipDetails.js";
+import bankDetail from "./routes/scholarshipDetails.js";
 import cors from "cors"
 const app = express();
 
@@ -65,6 +66,7 @@ app.use("/api/admin_details",admin_details);
 app.use("/api/get_supervisor",get_supervisor);
 app.use("/api/get_user",get_user);
 app.use("/api/admin3",admin3_verification);
+app.use("/api/update",bankDetail);
 
 app.use((err, req, res, next)=>{
     const status = err.status || 500;

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from "axios";
 
-const URL = "http://localhost:8800/api/developer/bank_data";
+const URL = "http://localhost:8800/api/update/bank_data";
 
 const BankAcc = () => {
   const [formData, setFormData] = useState({
     bankName: '',
     accountNo: '',
-    ifscCode: '',
+    ifsc: '',
     dateOfJoining: ''
   });
   const [user_longs, setUser_long] = useState([]);
@@ -52,7 +52,6 @@ const BankAcc = () => {
 
   const handleEdit = (index) => {
     setEditIndex(index);
-    // Set the form data to the values of the row being edited
     setFormData(user_longs[index]);
   };
 
@@ -69,7 +68,7 @@ const BankAcc = () => {
           enrollment: formData.enrollment, // Pass enrollment number to identify the student
           bankName: formData.bankName,
           accountNo: formData.accountNo,
-          ifscCode: formData.ifscCode,
+          ifsc: formData.ifsc,
           dateOfJoining: formData.dateOfJoining
         }),
       });
@@ -78,7 +77,7 @@ const BankAcc = () => {
         setFormData({
           bankName: '',
           accountNo: '',
-          ifscCode: '',
+          ifsc: '',
           dateOfJoining: ''
         });
         toast.success("Update Successful");
@@ -178,9 +177,9 @@ const BankAcc = () => {
                 <td>
                   <input
                     type="text"
-                    name='ifscCode'
+                    name='ifsc'
                     placeholder='IFSC Code'
-                    value={index === editIndex ? formData.ifscCode : user.ifscCode}
+                    value={index === editIndex ? formData.ifsc : user.ifsc}
                     required
                     disabled={index !== editIndex}
                     onChange={(e) => handleInputChange(e, index)}
