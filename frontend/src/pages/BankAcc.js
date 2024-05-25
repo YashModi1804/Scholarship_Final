@@ -199,7 +199,10 @@ const BankAcc = () => {
                   {index === editIndex ? (
                     <button className='btn' type='submit'>Update</button>
                   ) : (
-                    <button className='btn' onClick={() => handleEdit(index)}>Edit</button>
+                    <button className='btn' onClick={(e) => {
+                      e.preventDefault();
+                      handleEdit(index)}
+                    }>Edit</button>
                   )}
                 </td>
               </tr>

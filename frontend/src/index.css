@@ -19,7 +19,7 @@
 }
 .login-container-2{
   border: 2px solid rgb(255, 255, 255);
-  border-top-color: rgb(100, 224, 224);
+  border-top-color: rgb(56 67 255);
   border-radius: 0.75vi;
   display: flex;
   flex-direction: column;
@@ -61,7 +61,7 @@
 }
 .login-container-2 .register{
   font-size: medium;
-  background-color: rgb(100, 224, 224);
+  background-color: rgb(56 67 255);
   border: none;
   border-radius: 0.3vi;
   width: 8vi;
@@ -104,7 +104,7 @@
   height: 4vh;
   padding: right;
   align-items: flex-start;
-  color: rgb(100, 224, 224);
+  color: rgb(56 67 255);
 }
 
 
@@ -135,7 +135,7 @@
   padding-top: 2vh;
   margin-bottom: 6vh;
   background-color: white;
-  border-top-color: rgb(100, 224, 224);
+  border-top-color: rgb(56 67 255);
   margin-top: 4vh;
 }
 .Register-container-2 h1{
@@ -190,7 +190,7 @@
   height: 4vh;
   padding-right: 1vh;
   align-items: flex-start;
-  color: rgb(100, 224, 224);
+  color: rgb(56 67 255);
 }
 #name{
   /* margin-left: 3.8vi; */
@@ -229,7 +229,7 @@
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  border-top:2px solid rgb(100, 224, 224);
+  border-top:2px solid rgb(56 67 255);
 }
 .home-section-common {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -242,18 +242,18 @@
 }
 .home-section-common:hover {
    
-   box-shadow: 0 2px 4px rgb(100, 224, 224);
+   box-shadow: 0 2px 4px rgb(56 67 255);
 }
 .home-section-text {
   font-weight: bold;
 }
 .home-section-text:hover {
-  color: rgb(100, 224, 224);
+  color: rgb(56 67 255);
 }
 
 .home-logo {
   font-size: 8rem;
-  color: rgb(100, 224, 224);
+  color: rgb(56 67 255);
 }
 
 #home-logo-admin {
@@ -286,7 +286,7 @@
 }
 #status-thead {
   /* font-size: 0.8rem; */
-  /* background-color: rgb(100, 224, 224); */
+  /* background-color: rgb(56 67 255); */
   /* color: #fff; */
   padding-top: 2rem;
 }

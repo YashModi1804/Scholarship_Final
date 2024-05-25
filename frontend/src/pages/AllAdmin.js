@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { PiStudent } from "react-icons/pi";
+import { PiStudentFill } from "react-icons/pi";
 import { SiStatuspage } from "react-icons/si";
-import { CiBank } from "react-icons/ci";
+import { PiBankFill } from "react-icons/pi";
 import { FaRegUserCircle } from "react-icons/fa";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -323,9 +323,9 @@ pdf.save('scholarship_status.pdf');
             <div className="admin-sidebar">
               <div className="admin-sidebar-content">
                 <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Admin</div>
-                <div className="line"><PiStudent /> Student Details</div> 
+                <div className="line"><PiStudentFill /> Student Details</div> 
                 <div className="line" onClick={handleStatusPage}><SiStatuspage /> Status</div> 
-                <div className="line" onClick={handleBankDetail}><CiBank /> Bank's Details</div>
+                <div className="line" onClick={handleBankDetail}><PiBankFill /> Bank's Details</div>
               </div>
             </div>
           </div>

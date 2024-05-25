@@ -8,7 +8,7 @@
     padding: right;
     align-items: flex-start;
     color: black;
-    background-color: rgb(100, 224, 224);
+    background-color: rgb(56 67 255);
     font-size: 1.5rem;
     font-weight: bold;
   }
@@ -17,8 +17,8 @@
     grid-template-columns: 1fr 4fr;
 }
 .admin-container-content-1 {
-    background-color: whitesmoke;
-    /* width: 15rem; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     overflow: hidden;
     height: max-content;
     flex: 0 0 auto;
@@ -36,7 +36,7 @@
     font-size: 1.2rem;
     height: 6vh;
     margin: 1rem;
-    border-bottom: 2px solid rgb(100, 224, 224);
+    border-bottom: 2px solid rgb(56 67 255);
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -49,7 +49,7 @@
     */align-items: center;
     font-size: 1.5rem;
     font-weight: bold;
-    border-bottom: 2px solid;
+    border-bottom: 2px solid rgb(56 67 255);
     border-radius: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -61,10 +61,11 @@ br {
 }
 
 .line:hover {
-    background-color: rgb(100, 224, 224);
+    background-color: rgb(56 67 255);
 }
+
 .current-admin:hover {
-    background-color: whitesmoke;
+    background-color: white;
     cursor: default;
 }
 .react-icon {
@@ -73,7 +74,7 @@ br {
     margin-bottom: 8px;
 }
 .br {
-    color: rgb(100, 224, 224);
+    color: rgb(56 67 255);
 }
 .admin-container-content-2 {
     margin: 1rem;
@@ -140,7 +141,7 @@ span {
 }
 .btn {
     margin-left: 0.3rem;
-    background-color: rgb(100, 224, 224);
+    background-color: rgb(56 67 255);
     cursor: pointer;
     color: white;
     padding: 5px;
@@ -156,8 +157,8 @@ span {
     opacity: 1;
     /* transform: scale(1.01); */
     background-color: transparent;
-    border: 2px solid rgb(100, 224, 224);
-    color: rgb(100, 224, 224);
+    border: 2px solid rgb(56 67 255);
+    color: rgb(56 67 255);
 }
 
 .btn-action {
@@ -165,7 +166,7 @@ span {
 }
 .btn-processed {
     background-color: transparent;
-    color: rgb(100, 224, 224);
+    color: rgb(56 67 255);
     cursor: not-allowed;
 }
 .btn-locked {
@@ -202,7 +203,7 @@ span {
 table {
   margin: 4rem auto;
   border-radius: 0.5rem;
-  border: 1rem hidden rgb(100, 224, 224);
+  border: 1rem hidden rgb(56 67 255);
   border-collapse: collapse;
   box-shadow: 0 0 0 1px black;
   overflow: hidden;
@@ -218,7 +219,7 @@ li, p, a, td{
 
 thead {
   /* font-size: 0.8rem; */
-  background-color: rgb(100, 224, 224);
+  background-color: rgb(56 67 255);
   color: #fff;
   padding-top: 2rem;
 }
@@ -226,7 +227,7 @@ thead {
 th,
 td {
   max-width: 11rem;
-  border: 1px solid rgb(100, 224, 224);
+  border: 1px solid rgb(56 67 255);
   background-color: whitesmoke;
   color: black;
   min-width: 2rem;
@@ -236,7 +237,7 @@ td {
 }
 th {
   border: 1px solid white;
-  background-color: rgb(100, 224, 224);
+  background-color: rgb(56 67 255);
   font-size: 1rem;
 }
 
