@@ -9,6 +9,7 @@ const Register = () => {
     const [user, setUser] = useState({
         name: "",
         enrollment: "",
+        email:"",
         username: "",
         password: "",
     });
@@ -41,7 +42,7 @@ const Register = () => {
 
             if(response.ok) {
                 setUser({name: "", enrollment: "", username: "", password: ""});
-                toast.success("login Successful");
+                toast.success("Registration Successful");
                 navigate("/");
             } else {
                 toast.error(responseData.message? responseData.message: "Fill the Input properly")
@@ -92,6 +93,18 @@ const Register = () => {
                                     value={user.enrollment}
                                     onChange={handleInput}
                                 />
+                                <label className='login-label' htmlFor="enrollment">Email</label>
+                                <input 
+                                    className='login-input'
+                                    type='text' 
+                                    name='email'
+                                    id="email" 
+                                    placeholder='email'
+                                    required
+                                    value={user.email}
+                                    onChange={handleInput}
+                                />
+
                             {/* </div> */}
                             {/* <div className="input-group"> */}
                                 <label className='login-label' htmlFor="username">Username</label>

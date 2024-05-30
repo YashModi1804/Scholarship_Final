@@ -16,6 +16,7 @@ import SectionHead from './pages/SectionHead.js'
 import Aregistrar from './pages/Aregistrar.js'
 import Draccounts from './pages/Draccounts.js'
 import Home from './pages/Home.js';
+import Reset from './pages/Reset.jsx';
 export default function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/resetPassword" element={<Reset />}/>
         <Route path="/student" element={<Student />} />
         <Route path="/allAdmin" element={<AllAdmin />} />
         <Route path="/status" element={<Status/>}/>

@@ -16,6 +16,11 @@ const UserSchema = new mongoose.Schema({
         require: true,
         unique: true,
     },
+    email: {
+        type: String,
+        require: true,
+        default:"sl",
+    },
     programme: {
         type: String,
         require: true,
@@ -40,13 +45,13 @@ UserSchema.pre('save', function(next) {
     next();
 });
 
-UserSchema.pre('save', function(next) {
-    // Extract branch from enrollment ID (assuming it's always 3 characters starting from index 7)
-    const branch = this.enrollment.substring(7, 10);
-    // Set branch field
-    this.branch = branch;
-    next();
-});
+// UserSchema.pre('save', function(next) {
+//     // Extract branch from enrollment ID (assuming it's always 3 characters starting from index 7)
+//     const branch = this.enrollment.substring(7, 10);
+//     // Set branch field
+//     this.branch = branch;
+//     next();
+// });
 
 //json web token
 UserSchema.methods.generateToken = async function () {
@@ -65,3 +70,4 @@ UserSchema.methods.generateToken = async function () {
 const User = mongoose.model("User", UserSchema);
 
 export default User;
+

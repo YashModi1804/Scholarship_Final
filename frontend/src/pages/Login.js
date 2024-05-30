@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+// import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import logo from '../image/logo.png';
 const URL = "http://localhost:8800/api/auth/signin";
+
 
 const Login = () => {
     const [user, setUser] = useState({
@@ -46,6 +48,9 @@ const Login = () => {
         }
     }
 
+    const handleResetPassword = () => {
+        navigate("/resetPassword");
+    };
 
     return (
         <div className='login-container'>
@@ -67,10 +72,10 @@ const Login = () => {
                               value={user.username}
                               onChange={handleInput}
                             />
-                            <label htmlFor="username">Password</label>
+                            <label htmlFor="password">Password</label>
                             <input 
                               type='password'
-                              name='password' 
+                              name='password'
                               placeholder='Password'
                               id='password'
                               required
@@ -83,7 +88,7 @@ const Login = () => {
                         <Link to="/register">
                             <button className='register'>Register</button>
                         </Link>
-                        <button className='forget-password'>Reset Password</button>
+                        <button className='forget-password' type='button' onClick={handleResetPassword}>Reset Password</button>
                         </div>
                     </form>
                 </div>
