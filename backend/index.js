@@ -108,14 +108,6 @@ app.get('/getScholarshipDetail', (req, res) => {
 
 dotenv.config();
 
-const testCreateNewBlocks = async () => {
-   
-        await createNewScholarshipBlock();
-    
-
-};
-
-testCreateNewBlocks();
 
 
 app.listen(8800, ()=> {

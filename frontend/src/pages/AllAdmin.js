@@ -8,20 +8,18 @@ import { PiBankFill } from "react-icons/pi";
 import { FaRegUserCircle } from "react-icons/fa";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import month from 'months';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import daysInMonth from '@stdlib/time-days-in-month' ;
 import logo from '../image/logo.png';
 
-
-
 const URL = "http://localhost:8800/api/studentDetails/scholarshipDetail";
-
 const AllAdmin = () => {
   const [scholarshipDetail, setScholarshipDetail] = useState([]);
   const [showTable, setShowTable] = useState(true);
   const navigate = useNavigate();
   const [editIndex, setEditIndex] = useState(null);
+  const [session, setSession] = useState('SPRING');
+  const [month, setMonth] = useState('april');
   const [formData, setFormData] = useState({
     name: '',
     enrollment: '',
@@ -45,7 +43,12 @@ const AllAdmin = () => {
       const response = await axios.get(`/api/get_supervisor/${userId}`);
       const { name, department } = response.data;
       const studentsResponse = await axios.get('/getScholarshipDetail');
-      const filteredStudents = studentsResponse.data.filter(student => (student.supervisor === name && student.branch === department));
+      const filteredStudents = studentsResponse.data.filter(student => (
+        student.supervisor === name &&
+        student.branch === department &&
+        student.session === session &&
+        student.month === month
+      ));
       setScholarshipDetail(filteredStudents);
       setLoading(false);
     } catch (error) {
@@ -53,11 +56,7 @@ const AllAdmin = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchAndFilterStudents();
-  }, []);
-
+  
   const handleVerificationToggle = async (index) => {
     try {
       const student = scholarshipDetail[index];
@@ -70,7 +69,13 @@ const AllAdmin = () => {
       console.error('Error updating verification status:', error);
     }
   };
-
+ 
+    // useEffect(() => {
+    //   fetchAndFilterStudents();
+    // }, [session, month]);
+  
+  
+  
   const handleValidationToggle = async (index) => {
     try {
       const student = scholarshipDetail[index];
@@ -332,21 +337,28 @@ pdf.save('scholarship_status.pdf');
           <div className="admin-container-content-2">
             <div className="admin-content">
               <div className='admin-content-1' id="admin-content-supervisor">
-                <label htmlFor="session" className='supervisor-label'><span>*</span>Session:</label>
-                <select className='session-Drop-box drop-box supervisor-select' >
-                  <option value="session">SPRING 2024</option>
-                  <option value="session">AUTUMN 2024</option>
-                </select>
-                <label htmlFor="year" className='supervisor-label'><span>*</span>Year:</label>
-                <select className='year-Drop-box drop-box supervisor-select'>
-                  <option value="student">2024</option>
-                  <option value="admin">2023</option>
-                </select>
-                <label htmlFor="month" className='supervisor-label'><span>*</span>Month:</label>
-                <select className='month-Drop-box drop-box supervisor-select'>
-                  <option value="student">April</option>
-                  <option value="admin">March</option>
-                </select>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <select value={session} onChange={(e) => setSession(e.target.value)} style={{ marginRight: '10px' }}>
+    <option value="SPRING">Spring 2024</option>
+    <option value="AUTUMN">Autumn 2024</option>
+  </select>
+
+  <select value={month} onChange={(e) => setMonth(e.target.value)}>
+  <option value="jan">January</option>
+  <option value="feb">February</option>
+  <option value="mar">March</option>
+  <option value="apr">April</option>
+  <option value="may">May</option>
+  <option value="jun">June</option>
+  <option value="jul">July</option>
+    <option value="aug">August</option>
+    <option value="sep">September</option>
+    <option value="oct">October</option>
+    <option value="nov">November</option>
+    <option value="dec">December</option>
+  </select>
+</div>
+
               </div>
             </div>
             <div className="admin-buttons">

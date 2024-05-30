@@ -13,14 +13,20 @@ const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
     const [loading, setLoading] = useState(true);
     const [showTable, setShowTable] = useState(true);
+    const [session, setSession] = useState('SPRING');
+    const [month, setMonth] = useState('april');
 
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
             try {
                 const response = await axios.get('/getScholarshipDetail');
-                setDetails(response.data); // Set all student details without filtering
+                const filteredStudents = response.data.filter(student => (
+                    student.session === session &&
+                    student.month === month
+                  ));
+                setDetails(filteredStudents); // Set all student details without filtering
                 setLoading(false);
-                console.log('Fetched scholarship details:', response.data);
+                console.log('Fetched scholarship details:', filteredStudents);
             } catch (error) {
                 console.error('Error fetching scholarship details:', error);
                 setLoading(false);
@@ -29,6 +35,10 @@ const Admin = () => {
 
         fetchScholarshipDetails();
     }, []);
+    // useEffect(() => {
+    //     fetchScholarshipDetails();
+    //   }, [session, month]);
+    
 
     const handleDownloadPDF = async () => {
         if (details.length === 0) return;
@@ -241,19 +251,27 @@ const Admin = () => {
                             </select>
                         </div>
                         <div className='admin-content-2'>
-                            <label htmlFor="degree"><span>*</span>Degree</label>
-                            <select className='degree-Drop-box drop-box'>
-                                <option value="student">PhD</option>
-                            </select>
-                            <label htmlFor="branch"><span>*</span>Branch</label>
-                            <select className='branch-Drop-box drop-box'>
-                                <option value="student">Computer Science Engineering</option>            
-                                <option value="student">Information Technology Engineering</option>            
-                                <option value="student">Electronics & Communication Engineering</option>            
-                                <option value="student">Electrical Engineering</option>            
-                                <option value="student">Mechancial Engineering</option>            
-                                <option value="student">Civil Engineering</option>                       
-                            </select>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <select value={session} onChange={(e) => setSession(e.target.value)} style={{ marginRight: '10px' }}>
+    <option value="SPRING">Spring 2024</option>
+    <option value="AUTUMN">Autumn 2024</option>
+  </select>
+
+  <select value={month} onChange={(e) => setMonth(e.target.value)}>
+  <option value="jan">January</option>
+  <option value="feb">February</option>
+  <option value="mar">March</option>
+  <option value="apr">April</option>
+  <option value="may">May</option>
+  <option value="jun">June</option>
+  <option value="jul">July</option>
+    <option value="aug">August</option>
+    <option value="sep">September</option>
+    <option value="oct">October</option>
+    <option value="nov">November</option>
+    <option value="dec">December</option>
+  </select>
+</div>
                         </div>
                     </div>
                     <div className="admin-buttons">
