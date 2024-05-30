@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema({
     enrollment: {
         type: String,
         require: true,
-        unique: true,
     },
     email: {
         type: String,

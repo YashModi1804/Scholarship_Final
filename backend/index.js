@@ -23,6 +23,7 @@ import admin3_verification from "./controllers/admin3_verification.js"
 // import Bank from "./models/bank.js";
 import ScholarshipDetail from "./models/scholarshipDetails.js";
 import bankDetail from "./routes/scholarshipDetails.js";
+import {createNewScholarshipBlock} from './controllers/duplicate_record.js'
 import cors from "cors"
 const app = express();
 
@@ -105,7 +106,16 @@ app.get('/getScholarshipDetail', (req, res) => {
 });
 
 
+dotenv.config();
 
+const testCreateNewBlocks = async () => {
+   
+        await createNewScholarshipBlock();
+    
+
+};
+
+testCreateNewBlocks();
 
 
 app.listen(8800, ()=> {
