@@ -32,7 +32,8 @@ const AllAdmin = () => {
     actualScholarship: '',
     hra: '',
     netAmount: '',
-    verification_supervisor: ''
+    verification_supervisor: '',
+    
     
   });
   const [loading, setLoading] = useState(true);
@@ -70,9 +71,9 @@ const AllAdmin = () => {
     }
   };
  
-    // useEffect(() => {
-    //   fetchAndFilterStudents();
-    // }, [session, month]);
+    useEffect(() => {
+      fetchAndFilterStudents();
+    }, [session, month]);
   
   
   
