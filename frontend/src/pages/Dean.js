@@ -200,7 +200,7 @@ const Admin = () => {
         check_bulk = true; // Set check_bulk to true before starting bulk verification
         try {
             const verificationPromises = details.map(student => {
-                if (!student.verification_dean) {
+                if (student.verification_adean &&!student.verification_dean) {
                     return handleVerificationToggle(student._id);
                 }
                 return null;
@@ -309,7 +309,7 @@ const Admin = () => {
                                     {
                                     detail.verification_adean? (
                                         detail.verification_dean?
-                                        (<button className='btn' style={{backgroundColor:'transparent', color: '#4285f4', cursor:'not-allowed' }}>
+                                        (<button className='btn' style={{backgroundColor:'transparent', color: 'green', cursor:'not-allowed', fontWeight:'500' }}>
                                             Verified
                                         </button>):
                                         (<button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_dean} className='btn'>

@@ -15,7 +15,7 @@ import logo from '../image/logo.png';
 const URL = "http://localhost:8800/api/studentDetails/scholarshipDetail";
 const AllAdmin = () => {
   const [scholarshipDetail, setScholarshipDetail] = useState([]);
-  const [showTable, setShowTable] = useState(true);
+  const [showTable, setShowTable] = useState(false);
   const navigate = useNavigate();
   const [editIndex, setEditIndex] = useState(null);
   const [session, setSession] = useState('SPRING');
@@ -328,7 +328,7 @@ pdf.save('scholarship_status.pdf');
           <div className="admin-container-content-1">
             <div className="admin-sidebar">
               <div className="admin-sidebar-content">
-                <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Admin</div>
+                {/* <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Admin</div> */}
                 <div className="line"><PiStudentFill /> Student Details</div> 
                 <div className="line" onClick={handleStatusPage}><SiStatuspage /> Status</div> 
                 <div className="line" onClick={handleBankDetail}><PiBankFill /> Bank's Details</div>
@@ -363,9 +363,9 @@ pdf.save('scholarship_status.pdf');
               </div>
             </div>
             <div className="admin-buttons">
-              <button className='btn' onClick={() => setShowTable(true)}>Show</button>
-              <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
-              <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+              <button className='btn' id="btn-show" onClick={() => setShowTable(true)}>Show</button>
+              <button className='btn' id="btn-excel" onClick={handleDownloadExcel}>Excel Report</button>
+              <button className='btn' id="btn-pdf" onClick={handleDownloadPDF}>Pdf Report</button>
             </div>
           </div>
         </div>

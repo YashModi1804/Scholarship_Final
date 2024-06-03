@@ -39,7 +39,7 @@ const PasswordForm = () => {
                 body: JSON.stringify({ ...user, email }),
             });
             const responseData = await response.json();
-            console.log(responseData);
+            console.log("response for changePass", responseData);
             if(response.ok) {
                 navigate("/login");
                 toast.success("Password Change Successful");

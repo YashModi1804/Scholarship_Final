@@ -262,9 +262,9 @@ const Admin = () => {
                     </div>
                     <div className="admin-buttons">
                         {/* <button className='btn' onClick={() => setShowTable(true)}>Show</button> */}
-                        <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
-                        <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
-                        <button className='btn' onClick={handleVerifyAll}>Verify All</button> {/* New button to verify all */}
+                        <button className='btn' id="btn-show" onClick={handleDownloadExcel}>Excel Report</button>
+                        <button className='btn' id="btn-excel" onClick={handleDownloadPDF}>Pdf Report</button>
+                        <button className='btn' id="btn-pdf" onClick={handleVerifyAll}>Verify All</button> {/* New button to verify all */}
                     </div>
                 </div>
             </div>
@@ -306,7 +306,7 @@ const Admin = () => {
                                 <td>
                                     {detail.validation_supervisor ? (
                                         detail.verification_hod ? (
-                                            <button className='btn' style={{ backgroundColor: 'transparent', color: '#4285f4', cursor: 'not-allowed' }}>
+                                            <button className='btn' style={{ backgroundColor: 'transparent', color: 'green', cursor: 'not-allowed', fontWeight:'500' }}>
                                                 Verified
                                             </button>
                                         ) : (

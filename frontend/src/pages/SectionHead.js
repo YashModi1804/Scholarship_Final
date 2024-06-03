@@ -299,7 +299,7 @@ const Admin = () => {
                                     {
                                     detail.verification_dean? (
                                         detail.verification_sectionHead?
-                                        (<button className='btn' style={{backgroundColor:'transparent', color: '#4285f4', cursor:'not-allowed' }}>
+                                        (<button className='btn' style={{backgroundColor:'transparent', color: 'green', cursor:'not-allowed', fontWeight:'500' }}>
                                             Verified
                                         </button>):
                                         (<button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_sectionHead} className='btn'>

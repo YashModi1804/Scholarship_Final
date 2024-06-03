@@ -3,12 +3,12 @@
 }
 .admin-top {
     padding: 1vi;
-    border: 1px solid rgb(255, 255, 255);
+    border-bottom: 4px solid rgb(56 67 255);
     height: 4vh;
     padding: right;
     align-items: flex-start;
     color: black;
-    background-color: rgb(56 67 255);
+    /* background-color: rgb(56 67 255); */
     font-size: 1.5rem;
     font-weight: bold;
   }
@@ -143,7 +143,7 @@ span {
     margin-left: 0.3rem;
     background-color: rgb(56 67 255);
     cursor: pointer;
-    color: white;
+    color: black;
     padding: 5px;
     font-weight: 300;
     border-radius: 5px;
@@ -166,13 +166,44 @@ span {
 }
 .btn-processed {
     background-color: transparent;
-    color: rgb(56 67 255);
+    color: green;
     cursor: not-allowed;
+    font-weight: 500;
 }
 .btn-locked {
     cursor: not-allowed;
+    background-color: transparent;
+    color: red;
+    font-weight: 500;
 }
 
+#btn-show {
+    background-color: orange;
+}
+#btn-excel {
+    background-color: green;
+}
+#btn-pdf {
+    background-color: red;
+}
+#btn-show:hover {
+    opacity: 1;
+    background-color: transparent;
+    border: 2px solid rgb(56 67 255);
+    color: rgb(56 67 255);
+}
+#btn-pdf:hover {
+    opacity: 1;
+    background-color: transparent;
+    border: 2px solid rgb(56 67 255);
+    color: rgb(56 67 255);
+}
+#btn-excel:hover {
+    opacity: 1;
+    background-color: transparent;
+    border: 2px solid rgb(56 67 255);
+    color: rgb(56 67 255);
+}
 
 .scholarship-detail {
     /*border: 2px solid red;
@@ -239,6 +270,7 @@ th {
   border: 1px solid white;
   background-color: rgb(56 67 255);
   font-size: 1rem;
+  color: white !important;
 }
 
 td {
