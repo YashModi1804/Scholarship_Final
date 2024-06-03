@@ -18,6 +18,12 @@ const AdminLogin = () => {
             [name]: value,
         });
     };
+    const handleStudentLogin = () => {
+        navigate('/login');
+    }
+    const handleResetPassword = () => {
+        navigate("/resetAdminPassword");
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,7 +69,9 @@ const AdminLogin = () => {
         } catch (error) {
             toast.error("Something went wrong");
         }
+        
     };
+    
 
     return (
         <div className='login-container'>
@@ -98,7 +106,8 @@ const AdminLogin = () => {
                         </div>
                         <button id='login-btn' type='submit' className='btn'>Submit</button>
                         <div className='Lower-buttons'>
-                            <button className='forget-password'>Reset Password</button>
+                            <button className='forget-password' onClick={handleResetPassword}>Reset Password</button>
+                            <button className='forget-password' onClick={handleStudentLogin}>Student Login</button>
                         </div>
                     </form>
                 </div>

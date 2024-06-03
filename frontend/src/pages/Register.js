@@ -56,7 +56,7 @@ const Register = () => {
         <div className='login-container'>
             <div className='login-top'>National Institute of Technology Srinagar</div>
             <div className='login-container-wrapper'>
-                <div className='login-container-2'>
+                <div className='login-container-2' id="register-cont">
                     <img src={logo} alt="Logo" />
                     <h1>Registration Form</h1>
                     <form onSubmit={handleSubmit} >

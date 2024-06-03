@@ -17,14 +17,18 @@ import Aregistrar from './pages/Aregistrar.js'
 import Draccounts from './pages/Draccounts.js'
 import Home from './pages/Home.js';
 import Reset from './pages/Reset.jsx';
+import PasswordForm from './pages/PasswordForm.js';
+import ResetAdminPassword from './pages/ResetAdmin.js';
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>} />
+        {/* <Route path="/" element={<Home/>} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/passwordForm" element={<PasswordForm />} />
         <Route path="/resetPassword" element={<Reset />}/>
+        <Route path="/resetAdminPassword" element={<ResetAdminPassword />}/>
         <Route path="/student" element={<Student />} />
         <Route path="/allAdmin" element={<AllAdmin />} />
         <Route path="/status" element={<Status/>}/>
@@ -37,7 +41,7 @@ export default function App() {
         <Route path="/sectionhead" element={<SectionHead/>}/>
         <Route path="/draccountant" element={<Draccounts/>}/>
         <Route path="/admin_details" element={<Admin_details/>}/>
-        <Route path="/adminLogin" element={<AdminLogin/>}/>
+        <Route path="/" element={<AdminLogin/>}/>
       </Routes>
     </BrowserRouter>
   );

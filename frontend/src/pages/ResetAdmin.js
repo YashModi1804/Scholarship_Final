@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import PasswordForm from './PasswordForm';
-const URL = "http://localhost:8800/api/auth/emailSend"; // Update this URL accordingly
+const URL = "http://localhost:8800/api/admin_details/emailSendAdmin"; // Update this URL accordingly
 
-const Reset = () => {
+const ResetAdminPassword = () => {
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const Reset = () => {
             console.log("responseData", responseData);
             if (response.ok) {
                 toast.success(responseData.msg ? responseData.msg : "OTP sent successfully"); 
-                if(responseData.msg==="Check your email id"? navigate('/passwordForm'): navigate('/resetPassword'));
+                if(responseData.msg==="Check your email id"? navigate('/passwordForm'): navigate('/resetAdminPassword'));
             } else {
                 toast.error(responseData.msg ? responseData.msg : "Error sending reset link");
             }
@@ -62,4 +62,4 @@ const Reset = () => {
     );
 };
 
-export default Reset;
+export default ResetAdminPassword;

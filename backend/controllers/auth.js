@@ -70,40 +70,92 @@ export const emailSend = async (req, res, next) => {
         console.log("error", error);
     }
 }
+// export const changePassword = async (req, res, next) => {
+//     try {
+//         const { email, otpCode, password, cpassword } = req.body;
 
+//         // Check if the passwords match
+//         if (password !== cpassword) {
+//             return res.status(400).json({ message: "Passwords do not match" });
+//         }
+
+//         // Validate the OTP code
+//         const otpData = await Otp.findOne({ email: req.body.email, code: req.body.code });
+//         if (!otpData) {
+//             return res.status(400).json({ message: "Invalid OTP" });
+//         }
+
+//         // Check if OTP is expired
+//         const currentTime = new Date().getTime();
+//         const diff = otpData.expireIn - currentTime;
+//         if (diff < 0) {
+//             return res.status(400).json({ message: "OTP has expired" });
+//         }
+
+//         // Hash the new password
+//         const saltRounds = 10;
+//         const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+//         // Find the user by email
+//         const user = await User.findOne({ email });
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
+
+//         // Update the user's password with the hashed password
+//         user.password = hashedPassword;
+//         await user.save();
+
+//         // Return success response
+//         return res.status(200).json({ message: "Password changed successfully" });
+//     } catch (error) {
+//         console.error("Error changing password:", error);
+//         return res.status(500).json({ message: "Internal Server Error" });
+//     }
+// };
 export const changePassword = async (req, res, next) => {
     try {
-        const { otpCode, password, cpassword } = req.body;
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password, salt);
 
-        // Check if the passwords match
-        if (password !== cpassword) {
-            return res.status(400).json({ message: "Passwords do not match" });
+        let data = await Otp.findOne({ email: req.body.email, code: req.body.code });
+        console.log("data", data);
+        if (!data) {
+            return res.status(400).json({
+                msg:"Invalid otp"
+            });
         }
 
-        // Validate OTP code here (you can use Otp.find or any other method)
+        let currentTime = new Date().getTime();
+        let diff = data.expireIn - currentTime;
 
-        // Hash the password
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        if (diff < 0) {
+            return res.status(400).json({
+                msg:"Token expired"
+            });
+        }
 
-        // If OTP is valid, update the user's password
-        const user = await User.findOne({ /* Query to find the user by email or any other unique identifier */ });
-
+        let user = await User.findOne({ email: req.body.email });
+        console.log("User", user);        
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({
+                msg:"User not found"
+            });
         }
 
-        // Update the user's password with the hashed password
-        user.password = hashedPassword;
+        user.password = hash;
         await user.save();
 
-        // Return success response
-        return res.status(200).json({ message: "Password changed successfully" });
+        res.status(200).json({
+            msg:"Password changed successfully"
+        });
     } catch (error) {
-        console.error("Error changing password:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
+        console.log("Error changing password:", error);
+        res.status(500).json({
+            msg:"Internal Server Error"
+        });
     }
-};
+}
 
 const mailer = (email, otp) => {
     const transporter = nodemailer.createTransport({
