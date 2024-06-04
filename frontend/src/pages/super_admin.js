@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import React, {useEffect, useState } from 'react';
+import axios from 'axios';
 import jsPDF from 'jspdf';
 import month from 'months';
 import html2canvas from 'html2canvas';
@@ -8,56 +8,28 @@ import { toast } from 'react-toastify';
 import logo from '../image/logo.png';
 
 let check_bulk=false;
-const Admin = () => {
-    const [showTable, setShowTable] = useState(true);
 
+const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
     const [loading, setLoading] = useState(true);
-    const [bulkVerify, setBulkVerify] = useState(false); // State to track bulk verification
-    const [session, setSession] = useState('SPRING');
-    const [month, setMonth] = useState('april');
-    // useEffect(() => {
-    //     const fetchScholarshipDetails = async () => {
-    //         try {
-    //             const userId = localStorage.getItem("userId");
-    //             const responseAdmin = await axios.get(`/api/get_supervisor/${userId}`);
-    //             const { name, department } = responseAdmin.data; 
-    //             const response = await axios.get(`/getScholarshipDetail`);
-    //             const updatedDetails = await axios.get('/getScholarshipDetail');
-    //             const filteredStudents = updatedDetails.data.filter(student => (student.branch === department &&student.session === session &&
-    //                 student.month === month));
-    //             setDetails(filteredStudents);
-    //             setLoading(false);
-    //             console.log('Fetched scholarship details:', filteredStudents);
-    //         } catch (error) {
-    //             console.error('Error fetching scholarship details:', error);
-    //             setLoading(false);
-    //         }
-    //     };
+    const [showTable, setShowTable] = useState(true);
 
-    //     fetchScholarshipDetails();
-    // }, []);
-    const fetchScholarshipDetails = async () => {
-        try {
-            const userId = localStorage.getItem("userId");
-            const responseAdmin = await axios.get(`/api/get_supervisor/${userId}`);
-            const { name, department } = responseAdmin.data; 
-            const response = await axios.get(`/getScholarshipDetail`);
-            const updatedDetails = await axios.get('/getScholarshipDetail');
-            const filteredStudents = updatedDetails.data.filter(student => (student.branch === department &&student.session === session &&
-                student.month === month));
-            setDetails(filteredStudents);
-            setLoading(false);
-            console.log('Fetched scholarship details:', filteredStudents);
-        } catch (error) {
-            console.error('Error fetching scholarship details:', error);
-            setLoading(false);
-        }
-    };
     useEffect(() => {
+        const fetchScholarshipDetails = async () => {
+            try {
+                const response = await axios.get('/getScholarshipDetail');
+                setDetails(response.data); // Set all student details without filtering
+                setLoading(false);
+                console.log('Fetched scholarship details:', response.data);
+            } catch (error) {
+                console.error('Error fetching scholarship details:', error);
+                setLoading(false);
+            }
+        };
+
         fetchScholarshipDetails();
-      }, [session, month]);
-    
+    }, []);
+
     const handleDownloadPDF = async () => {
         if (details.length === 0) return;
     
@@ -165,42 +137,42 @@ const Admin = () => {
           console.error('Error generating PDF:', error);
         }
       };
-    
+
     const handleDownloadExcel = () => {
         const headers = [
-          'Month',
-          'Name',
-          'Registration Number',
-          'Branch',
-          'Semester',
-          'Bank Account',
-          'Total Days',
-          'Entitlement',
-          'Actual Scholarship',
-          'HRA (18% of Scholarship)',
-          'Net Amount',
-          'Supervisor',
-          'Student Verification',
-          'Status'
+            'Month',
+            'Name',
+            'Registration Number',
+            'Branch',
+            'Semester',
+            'Bank Account',
+            'Total Days',
+            'Entitlement',
+            'Actual Scholarship',
+            'HRA (18% of Scholarship)',
+            'Net Amount',
+            'Supervisor',
+            'Student Verification',
+            'Status'
         ];
-    
+
         const worksheet = XLSX.utils.json_to_sheet([headers, ...details.map(detail => [
-          month[new Date().getMonth()],
-          detail.name,
-          detail.enrollment,
-          detail.branch,
-          detail.semester,
-          detail.bankAccount,
-          detail.totalDays,
-          detail.entitlement,
-          detail.actualScholarship,
-          detail.hra,
-          detail.netAmount,
-          detail.supervisor,
-          detail.verification_hod ? 'Verified' : 'Not Verified',
-          detail.verification_hod ? 'Verified' : 'Not Verified'
+            month[new Date().getMonth()],
+            detail.name,
+            detail.enrollment,
+            detail.branch,
+            detail.semester,
+            detail.bankAccount,
+            detail.totalDays,
+            detail.entitlement,
+            detail.actualScholarship,
+            detail.hra,
+            detail.netAmount,
+            detail.supervisor,
+            detail.verification_sectionHead ? 'Verified' : 'Not Verified',
+            detail.verification_sectionHead ? 'Verified' : 'Not Verified'
         ])]);
-    
+
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Scholarship Details');
         XLSX.writeFile(workbook, 'ScholarshipDetails.xlsx');
@@ -208,88 +180,84 @@ const Admin = () => {
 
     const handleVerificationToggle = async (id) => {
         try {
-            await axios.put(`/api/update_hod_verification/verify/${id}`);
             setDetails(prevDetails => 
                 prevDetails.map(detail =>
-                    detail._id === id ? { ...detail, verification_hod: true } : detail
+                    detail._id === id ? { ...detail, verification_supervisor: false } : detail,
+                    detail._id === id ? { ...detail, verification_student: false } : detail,
+                    detail._id === id ? { ...detail, validation_supervisor: false } : detail,
+                    detail._id === id ? { ...detail, verification_adean:false } : detail,
+                    detail._id === id ? { ...detail, verification_dean:false } : detail,
+                    detail._id === id ? { ...detail, verification_sectionHead: true } : detail,
+                    detail._id === id ? { ...detail, verification_sectionHead: true } : detail,
+                    detail._id === id ? { ...detail, verification_sectionHead: true } : detail,
                 )
             );
-            console.log('Toggling verification for student ID:', id);
-
-            if (!check_bulk) {
-                toast.success("Verification Successful");
-            }
+            toast.success("Verification Successful");
         } catch (error) {
             console.error('Error updating verification status:', error);
-            if (!bulkVerify) {
-                toast.error("Internal Error");
+            toast.error("Internal Error");
+        }
+    };
+    const handleVerifyAll = async () => {
+        for (const student of details) {
+            check_bulk=true;
+            if (!student.verification_sectionHead) {
+                await handleVerificationToggle(student._id);
             }
         }
+        toast.success("All students verified successfully"); // Show single toast notification
     };
-
-    const handleVerifyAll = async () => {
-        check_bulk = true; // Set check_bulk to true before starting bulk verification
-        try {
-            const verificationPromises = details.map(student => {
-                if (!student.verification_hod) {
-                    return handleVerificationToggle(student._id);
-                }
-                return null;
-            }).filter(Boolean); // Remove null values
-
-            await Promise.all(verificationPromises);
-            toast.success("All students verified successfully"); // Show single toast notification
-        } catch (error) {
-            toast.error("Error verifying all students");
-        } finally {
-            check_bulk = false; // Reset check_bulk to false after completing bulk verification
-        }
-    };
-
     if (loading) {
         return <p>Loading scholarship details...</p>;
     }
 
     return (
         <>
-                    <div className='admin-container'>
             <div className='admin-top'>Scholarship Entry Page</div>
-
-            <div className="admin-container-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection:'column' }}>
-            <div className="admin-content">
-              <div className='admin-content-1' id="admin-content-supervisor">
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <select value={session} onChange={(e) => setSession(e.target.value)} style={{ marginRight: '10px' }}>
-    <option value="SPRING">Spring 2024</option>
-    <option value="AUTUMN">Autumn 2024</option>
-  </select>
-
-  <select value={month} onChange={(e) => setMonth(e.target.value)}>
-  <option value="jan">January</option>
-  <option value="feb">February</option>
-  <option value="mar">March</option>
-  <option value="apr">April</option>
-  <option value="may">May</option>
-  <option value="jun">June</option>
-  <option value="jul">July</option>
-    <option value="aug">August</option>
-    <option value="sep">September</option>
-    <option value="oct">October</option>
-    <option value="nov">November</option>
-    <option value="dec">December</option>
-  </select>
-</div>
-
-              </div>
+            <div>
+                <div className="admin-container-content-2">
+                    <div className="admin-content">
+                        <div className='admin-content-1'>
+                            <label htmlFor="session"><span>*</span>Session</label>
+                            <select className='session-Drop-box drop-box'>
+                                <option value="session">SPRING 2024</option>
+                                <option value="session">AUTUMN 2024</option>
+                            </select>
+                            <label htmlFor="year"><span>*</span>Year</label>
+                            <select className='year-Drop-box drop-box'>
+                                <option value="student">2024</option>
+                                <option value="admin">2023</option>
+                            </select>
+                            <label htmlFor="month"><span>*</span>Month</label>
+                            <select className='month-Drop-box drop-box'>
+                                <option value="student">April</option>
+                                <option value="admin">March</option>
+                            </select>
+                        </div>
+                        <div className='admin-content-2'>
+                            <label htmlFor="degree"><span>*</span>Degree</label>
+                            <select className='degree-Drop-box drop-box'>
+                                <option value="student">PhD</option>
+                            </select>
+                            <label htmlFor="branch"><span>*</span>Branch</label>
+                            <select className='branch-Drop-box drop-box'>
+                                <option value="student">Computer Science Engineering</option>            
+                                <option value="student">Information Technology Engineering</option>            
+                                <option value="student">Electronics & Communication Engineering</option>            
+                                <option value="student">Electrical Engineering</option>            
+                                <option value="student">Mechancial Engineering</option>            
+                                <option value="student">Civil Engineering</option>               
+                            </select>
+                        </div>
+                    </div>
+                    <div className="admin-buttons">
+                        <button className='btn' onClick={() => setShowTable(true)}>Show</button>
+                        <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
+                        <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
+                        <button className='btn' onClick={handleVerifyAll}>Verify All</button>
+                    </div>
+                </div>
             </div>
-            <div className="admin-buttons">
-              <button className='btn' id="btn-show" onClick={() => setShowTable(true)}>Show</button>
-              <button className='btn' id="btn-excel" onClick={handleDownloadExcel}>Excel Report</button>
-              <button className='btn' id="btn-pdf" onClick={handleDownloadPDF}>Pdf Report</button>
-            </div>
-        </div>
-        </div>
-        {showTable && (
             <div className="scholarship-details" id="pdf-table">
                 <table>
                     <thead>
@@ -306,7 +274,7 @@ const Admin = () => {
                             <th>HRA @18% of Scholarship</th>
                             <th>Net Amount</th>
                             <th>Supervisor</th>
-                            <th>HOD Verification</th>
+                            <th>Student Verification</th>
                             {/* <th>Check</th> */}
                         </tr>
                     </thead>
@@ -326,26 +294,16 @@ const Admin = () => {
                                 <td>{detail.netAmount}</td>
                                 <td>{detail.supervisor}</td>
                                 <td>
-                                    {detail.validation_supervisor ? (
-                                        detail.verification_hod ? (
-                                            <button className='btn' style={{ backgroundColor: 'transparent', color: 'green', cursor: 'not-allowed', fontWeight:'500' }}>
-                                                Verified
-                                            </button>
-                                        ) : (
-                                            <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_hod} className='btn'>
-                                                Verify
-                                            </button>
-                                        )
-                                    ) : (
-                                        ""
-                                    )}
+                                <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_sectionHead} className='btn'>
+                                        Allow Change
+                                        </button>
                                 </td>
+                                {/* <td>{detail.verification_sectionHead ? 'Verified' : 'Not Verified'}</td> */}
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-        )};
         </>
     );
 }
