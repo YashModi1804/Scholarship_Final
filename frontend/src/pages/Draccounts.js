@@ -13,22 +13,26 @@ const Admin = () => {
     const [loading, setLoading] = useState(true);
     const [showTable, setShowTable] = useState(true);
 
+    const [session, setSession] = useState('SPRING');
+    const [month, setMonth] = useState('april');
+
+    const fetchScholarshipDetails = async () => {
+        try {
+            const response = await axios.get('/getScholarshipDetail');
+            const filteredStudents = response.data.filter(student => (student.session === session &&
+                student.month === month));
+            setDetails(filteredStudents);
+            
+            setLoading(false);
+            console.log('Fetched scholarship details:', response.data);
+        } catch (error) {
+            console.error('Error fetching scholarship details:', error);
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchScholarshipDetails = async () => {
-            try {
-                const response = await axios.get('/getScholarshipDetail');
-                setDetails(response.data); // Set all student details without filtering
-                setLoading(false);
-                console.log('Fetched scholarship details:', response.data);
-            } catch (error) {
-                console.error('Error fetching scholarship details:', error);
-                setLoading(false);
-            }
-        };
-
         fetchScholarshipDetails();
-    }, []);
-
+      }, [session, month]);
     const handleDownloadPDF = async () => {
         if (details.length === 0) return;
     
@@ -218,51 +222,43 @@ const Admin = () => {
 
     return (
         <>
+         <div className='admin-container'>
             <div className='admin-top'>Scholarship Entry Page</div>
-            <div>
-                <div className="admin-container-content-2">
-                    <div className="admin-content">
-                        <div className='admin-content-1'>
-                            <label htmlFor="session"><span>*</span>Session</label>
-                            <select className='session-Drop-box drop-box'>
-                                <option value="session">SPRING 2024</option>
-                                <option value="session">AUTUMN 2024</option>
-                            </select>
-                            <label htmlFor="year"><span>*</span>Year</label>
-                            <select className='year-Drop-box drop-box'>
-                                <option value="student">2024</option>
-                                <option value="admin">2023</option>
-                            </select>
-                            <label htmlFor="month"><span>*</span>Month</label>
-                            <select className='month-Drop-box drop-box'>
-                                <option value="student">April</option>
-                                <option value="admin">March</option>
-                            </select>
-                        </div>
-                        <div className='admin-content-2'>
-                            <label htmlFor="degree"><span>*</span>Degree</label>
-                            <select className='degree-Drop-box drop-box'>
-                                <option value="student">PhD</option>
-                            </select>
-                            <label htmlFor="branch"><span>*</span>Branch</label>
-                            <select className='branch-Drop-box drop-box'>
-                                <option value="student">Computer Science Engineering</option>            
-                                <option value="student">Information Technology Engineering</option>            
-                                <option value="student">Electronics & Communication Engineering</option>            
-                                <option value="student">Electrical Engineering</option>            
-                                <option value="student">Mechancial Engineering</option>            
-                                <option value="student">Civil Engineering</option>           
-                            </select>
-                        </div>
-                    </div>
-                    <div className="admin-buttons">
-                        <button className='btn' onClick={() => setShowTable(true)}>Show</button>
-                        <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
-                        <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
-                        <button className='btn' onClick={handleVerifyAll}>Verify All</button>
-                    </div>
-                </div>
+
+            <div className="admin-container-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection:'column' }}>
+            <div className="admin-content">
+              <div className='admin-content-1' id="admin-content-supervisor">
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <select value={session} onChange={(e) => setSession(e.target.value)} style={{ marginRight: '10px' }}>
+    <option value="SPRING">Spring 2024</option>
+    <option value="AUTUMN">Autumn 2024</option>
+  </select>
+
+  <select value={month} onChange={(e) => setMonth(e.target.value)}>
+  <option value="jan">January</option>
+  <option value="feb">February</option>
+  <option value="mar">March</option>
+  <option value="apr">April</option>
+  <option value="may">May</option>
+  <option value="jun">June</option>
+  <option value="jul">July</option>
+    <option value="aug">August</option>
+    <option value="sep">September</option>
+    <option value="oct">October</option>
+    <option value="nov">November</option>
+    <option value="dec">December</option>
+  </select>
+</div>
+
+              </div>
             </div>
+            <div className="admin-buttons">
+              <button className='btn' id="btn-show" onClick={() => setShowTable(true)}>Show</button>
+              <button className='btn' id="btn-excel" onClick={handleDownloadExcel}>Excel Report</button>
+              <button className='btn' id="btn-pdf" onClick={handleDownloadPDF}>Pdf Report</button>
+            </div>
+        </div>
+        </div>
             <div className="scholarship-details" id="pdf-table">
                 <table>
                     <thead>
