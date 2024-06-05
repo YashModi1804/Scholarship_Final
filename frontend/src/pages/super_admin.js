@@ -170,6 +170,7 @@ const Admin = () => {
 
     const handleVerificationToggle = async (id) => {
         try {
+            await axios.put(`/api/reset/superAdmin/${id}`);
             setDetails(prevDetails =>
                 prevDetails.map(detail =>
                     detail._id === id ? {
@@ -185,12 +186,13 @@ const Admin = () => {
                     } : detail
                 )
             );
-            toast.success("Verification Successful");
+            toast.success("Reset Successful");
         } catch (error) {
-            console.error('Error updating verification status:', error);
+            console.error('Error in Reset:', error);
             toast.error("Internal Error");
         }
     };
+    
 
     const handleVerifyAll = async () => {
         for (const student of details) {
@@ -288,7 +290,7 @@ const Admin = () => {
                                 <td>{detail.netAmount}</td>
                                 <td>{detail.supervisor}</td>
                                 <td>
-                                    <button onClick={() => handleVerificationToggle(detail._id)} disabled={detail.verification_sectionHead} className='btn'>
+                                    <button onClick={() => handleVerificationToggle(detail._id)}  className='btn'>
                                         Allow Change
                                     </button>
                                 </td>
