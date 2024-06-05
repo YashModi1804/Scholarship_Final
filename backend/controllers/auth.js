@@ -113,16 +113,64 @@ export const emailSend = async (req, res, next) => {
 //         return res.status(500).json({ message: "Internal Server Error" });
 //     }
 // };
+// export const changePassword = async (req, res, next) => {
+//     try {
+//         const salt = bcrypt.genSaltSync(10);
+//         const hash = bcrypt.hashSync(req.body.password, salt);
+
+//         let data = await Otp.findOne({ email: req.body.email, code: req.body.code });
+//         console.log("data", data);
+//         if (!data) {
+//             return res.status(400).json({
+//                 msg:"Invalid otp"
+//             });
+//         }
+
+//         let currentTime = new Date().getTime();
+//         let diff = data.expireIn - currentTime;
+
+//         if (diff < 0) {
+//             return res.status(400).json({
+//                 msg:"Token expired"
+//             });
+//         }
+
+//         let user = await User.findOne({ email: req.body.email });
+//         console.log("User", user);        
+//         if (!user) {
+//             return res.status(404).json({
+//                 msg:"User not found"
+//             });
+//         }
+
+//         user.password = hash;
+//         await user.save();
+
+//         res.status(200).json({
+//             msg:"Password changed successfully"
+//         });
+//     } catch (error) {
+//         console.log("Error changing password:", error);
+//         res.status(500).json({
+//             msg:"Internal Server Error"
+//         });
+//     }
+// }
 export const changePassword = async (req, res, next) => {
     try {
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
+        const { email, code, password } = req.body;
 
-        let data = await Otp.findOne({ email: req.body.email, code: req.body.code });
-        console.log("data", data);
+        console.log("Request Body:", req.body);
+
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+
+        let data = await Otp.findOne({ email: "sumit_2022bcse074@nitsri.ac.in", code: "5065" });
+        console.log("Otp Data:", data);
+
         if (!data) {
             return res.status(400).json({
-                msg:"Invalid otp"
+                msg: "Invalid otp"
             });
         }
 
@@ -131,15 +179,16 @@ export const changePassword = async (req, res, next) => {
 
         if (diff < 0) {
             return res.status(400).json({
-                msg:"Token expired"
+                msg: "Token expired"
             });
         }
 
-        let user = await User.findOne({ email: req.body.email });
-        console.log("User", user);        
+        let user = await User.findOne({ email: email });
+        console.log("User Data:", user);
+
         if (!user) {
             return res.status(404).json({
-                msg:"User not found"
+                msg: "User not found"
             });
         }
 
@@ -147,12 +196,12 @@ export const changePassword = async (req, res, next) => {
         await user.save();
 
         res.status(200).json({
-            msg:"Password changed successfully"
+            msg: "Password changed successfully"
         });
     } catch (error) {
         console.log("Error changing password:", error);
         res.status(500).json({
-            msg:"Internal Server Error"
+            msg: "Internal Server Error"
         });
     }
 }
