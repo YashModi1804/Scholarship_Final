@@ -257,6 +257,8 @@ const Admin = () => {
               <button className='btn' id="btn-show" onClick={() => setShowTable(true)}>Show</button>
               <button className='btn' id="btn-excel" onClick={handleDownloadExcel}>Excel Report</button>
               <button className='btn' id="btn-pdf" onClick={handleDownloadPDF}>Pdf Report</button>
+              <button className='btn' id="btn-pdf" onClick={handleVerifyAll}>Verify All</button>
+
             </div>
         </div>
         </div>

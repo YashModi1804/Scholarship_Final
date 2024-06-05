@@ -23,6 +23,7 @@ import admin3_verification from "./controllers/admin3_verification.js"
 // import Bank from "./models/bank.js";
 import ScholarshipDetail from "./models/scholarshipDetails.js";
 import bankDetail from "./routes/scholarshipDetails.js";
+import superAdmin from "./routes/superAdmin.js";
 import {createNewScholarshipBlock} from './controllers/duplicate_record.js'
 import cors from "cors"
 const app = express();
@@ -68,6 +69,7 @@ app.use("/api/get_supervisor",get_supervisor);
 app.use("/api/get_user",get_user);
 app.use("/api/admin3",admin3_verification);
 app.use("/api/update",bankDetail);
+app.use("/api/reset",superAdmin);
 
 app.use((err, req, res, next)=>{
     const status = err.status || 500;

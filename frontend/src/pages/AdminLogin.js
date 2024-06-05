@@ -63,6 +63,9 @@ const AdminLogin = () => {
                  else if (responseData.position === 'draccounts') {
                     navigate("/draccountant");
                 }
+                 else if (responseData.position === 'super_admin') {
+                    navigate("/SuperAdmin");
+                }
             } else {
                 toast.error(responseData.message ? responseData.message : "Invalid Credentials");
             }

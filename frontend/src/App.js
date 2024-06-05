@@ -15,6 +15,7 @@ import Dean from './pages/Dean.js'
 import SectionHead from './pages/SectionHead.js'
 import Aregistrar from './pages/Aregistrar.js'
 import Draccounts from './pages/Draccounts.js'
+import SuperAdmin from './pages/super_admin.js'
 import Home from './pages/Home.js';
 import Reset from './pages/Reset.jsx';
 import PasswordForm from './pages/PasswordForm.js';
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/aregistrar" element={<Aregistrar/>}/>
         <Route path="/sectionhead" element={<SectionHead/>}/>
         <Route path="/draccountant" element={<Draccounts/>}/>
+        <Route path="/SuperAdmin" element={<SuperAdmin/>}/>
         <Route path="/admin_details" element={<Admin_details/>}/>
         <Route path="/" element={<AdminLogin/>}/>
       </Routes>
