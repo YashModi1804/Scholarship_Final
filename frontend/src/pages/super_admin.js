@@ -248,10 +248,10 @@ const Admin = () => {
                         </div>
                     </div>
                     <div className="admin-buttons">
-                        <button className='btn' onClick={() => setShowTable(true)}>Show</button>
-                        <button className='btn' onClick={handleDownloadExcel}>Excel Report</button>
-                        <button className='btn' onClick={handleDownloadPDF}>Pdf Report</button>
-                        <button className='btn' onClick={handleVerifyAll}>Verify All</button>
+                    <button className='btn' id="btn-show" onClick={() => setShowTable(true)}>Show</button>
+                    <button className='btn' id="btn-excel" onClick={handleDownloadExcel}>Excel Report</button>
+                    <button className='btn' id="btn-pdf" onClick={handleDownloadPDF}>Pdf Report</button>
+                    {/* <button className='btn' onClick={handleVerifyAll}>Verify All</button> */}
                     </div>
                 </div>
             </div>
@@ -290,9 +290,9 @@ const Admin = () => {
                                 <td>{detail.netAmount}</td>
                                 <td>{detail.supervisor}</td>
                                 <td>
-                                    <button onClick={() => handleVerificationToggle(detail._id)}  className='btn'>
-                                        Allow Change
-                                    </button>
+                                    {detail.validation_supervisor? (<button onClick={() => handleVerificationToggle(detail._id)}  className='btn'>
+                                        Reset
+                                    </button>):""}
                                 </td>
                             </tr>
                         ))}

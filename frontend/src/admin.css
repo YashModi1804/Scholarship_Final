@@ -16,6 +16,9 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
 }
+#student-page {
+    display: flex;
+}
 .admin-container-content-1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -160,6 +163,7 @@ span {
     border: 2px solid rgb(56 67 255);
     color: rgb(56 67 255);
 }
+
 
 .btn-action {
     display: flex;

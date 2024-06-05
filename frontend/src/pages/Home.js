@@ -1,10 +1,6 @@
 import React from 'react';
 import { FaUser, FaUserGraduate } from "react-icons/fa";
-import Header from '../components/header';
 import { useNavigate } from 'react-router-dom';
-
-// Import your background image
-import backgroundImage from '../image/scholarship.jpg';
 
 const Home = () => {
   const navigate = useNavigate();

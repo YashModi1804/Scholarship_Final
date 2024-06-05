@@ -38,9 +38,9 @@ const StudentPortal = () => {
     return (
         <>
         <div className='admin-top'>National Institute of Technology Srinagar</div>
-        <div className="admin-container-content">
+        <div className="admin-container-content" id="student-page">
             <div className="admin-container-content-1">
-                <div className="admin-sidebar">
+                {/* <div className="admin-sidebar">
                     <div className="admin-sidebar-content">
                     <div className="current-admin line"><FaRegUserCircle className='react-icon' /> #Student</div>
                         <div className="line" onClick={() => handleTabChange('ScholarshipStatus')}>
@@ -52,7 +52,7 @@ const StudentPortal = () => {
                         <div className="line" onClick={handleStatusPage}><SiStatuspage /> Status</div>
 
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="main-content">
                 {renderTabContent()}

@@ -458,11 +458,12 @@ pdf.save('scholarship_status.pdf');
                         {index === editIndex ? (
                           <button className='btn' type='submit'>Update</button>
                         ) : (
-                          <button className='btn' onClick={(e) => {
+                          scholarshipDetail[index].validation_supervisor?
+                          "":(<button className='btn' onClick={(e) => {
                             e.preventDefault();
                             handleEdit(index);
                           }}
-                        >Edit</button>
+                        >Edit</button>)
                         )}
                         {scholarshipDetail[index].verification_supervisor ? (
                           scholarshipDetail[index].verification_student ? (

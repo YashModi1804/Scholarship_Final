@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-import month from 'months';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import { toast } from 'react-toastify';
@@ -15,6 +14,7 @@ const Admin = () => {
     const [showTable, setShowTable] = useState(true);
     const [session, setSession] = useState('SPRING');
     const [month, setMonth] = useState('april');
+    if(showTable);
 
     // useEffect(() => {
     //     const fetchScholarshipDetails = async () => {
