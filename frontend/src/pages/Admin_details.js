@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 const URL="http://localhost:8800/api/admin_details/admin/create"
 const AdminForm = () => {

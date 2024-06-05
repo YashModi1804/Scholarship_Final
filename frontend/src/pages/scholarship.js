@@ -31,6 +31,7 @@ const ScholarshipDetails = ({ enrollment }) => {
     
             // Refresh details after updating verification status
             const updatedResponse = await axios.put(`/api/update_student_verification/verify/${details._id}`);
+            if(updatedResponse);
             const updatedDetails = { ...details, verification_student: true }; // Assuming the verification_student field should be set to true after verification
             setDetails(updatedDetails);
             toast.success("Verification Successful");

@@ -1,6 +1,5 @@
 // React component file (InsertStudentData.jsx)
 import React, { useState } from 'react';
-import axios from 'axios';
 import './developer.css'; // Import CSS file
 import { toast } from 'react-toastify';
 

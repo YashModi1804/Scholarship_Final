@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import jsPDF from 'jspdf';
-import month from 'months';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import { toast } from 'react-toastify';
@@ -16,6 +15,7 @@ const Admin = () => {
     const [bulkVerify, setBulkVerify] = useState(false); // State to track bulk verification
     const [session, setSession] = useState('SPRING');
     const [month, setMonth] = useState('april');
+    if(setBulkVerify);
     // useEffect(() => {
     //     const fetchScholarshipDetails = async () => {
     //         try {
@@ -48,6 +48,8 @@ const Admin = () => {
                 student.month === month));
             setDetails(filteredStudents);
             setLoading(false);
+            if(name);
+            if(response);
             console.log('Fetched scholarship details:', filteredStudents);
         } catch (error) {
             console.error('Error fetching scholarship details:', error);
@@ -57,6 +59,7 @@ const Admin = () => {
     useEffect(() => {
         fetchScholarshipDetails();
       }, [session, month]);
+
     
     const handleDownloadPDF = async () => {
         if (details.length === 0) return;
@@ -158,6 +161,7 @@ const Admin = () => {
     
           // Open the PDF in a new window
           const pdfBlob = pdf.output('blob');
+          if(pdfBlob);
     pdf.save('scholarship_status.pdf');
     
     

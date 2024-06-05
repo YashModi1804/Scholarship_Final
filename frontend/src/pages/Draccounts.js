@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-import month from 'months';
 import logo from '../image/logo.png';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
@@ -12,6 +11,7 @@ const Admin = () => {
     const [details, setDetails] = useState([]); // Initialize details as an empty array
     const [loading, setLoading] = useState(true);
     const [showTable, setShowTable] = useState(true);
+    if(showTable);
 
     const [session, setSession] = useState('SPRING');
     const [month, setMonth] = useState('april');
@@ -133,6 +133,7 @@ const Admin = () => {
     
           // Open the PDF in a new window
           const pdfBlob = pdf.output('blob');
+          if(pdfBlob);
     pdf.save('scholarship_status.pdf');
     
     

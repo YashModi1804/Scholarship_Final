@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import PasswordForm from './PasswordForm';
 const URL = "http://localhost:8800/api/admin_details/emailSendAdmin"; // Update this URL accordingly
 
 const ResetAdminPassword = () => {

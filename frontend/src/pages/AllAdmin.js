@@ -5,7 +5,6 @@ import axios from "axios";
 import { PiStudentFill } from "react-icons/pi";
 import { SiStatuspage } from "react-icons/si";
 import { PiBankFill } from "react-icons/pi";
-import { FaRegUserCircle } from "react-icons/fa";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; // Import the xlsx library
@@ -63,6 +62,7 @@ const AllAdmin = () => {
       const student = scholarshipDetail[index];
       const updatedResponse = await axios.put(`/api/update_supervisor_verification/verify/${student._id}`);
       const updatedStudent = { ...student, verification_supervisor: true };
+      if(updatedResponse);
       setScholarshipDetail(prevDetails => prevDetails.map((item, idx) => idx === index ? updatedStudent : item));
       toast.success("Verification Supervisor Successful");
       await fetchAndFilterStudents();
@@ -70,6 +70,7 @@ const AllAdmin = () => {
       console.error('Error updating verification status:', error);
     }
   };
+  
  
     useEffect(() => {
       fetchAndFilterStudents();
@@ -82,6 +83,7 @@ const AllAdmin = () => {
       const student = scholarshipDetail[index];
       const updatedResponse = await axios.put(`/api/update_supervisor_validation/validate/${student._id}`);
       const updatedStudent = { ...student, validation_supervisor: true };
+      if(updatedResponse);
       setScholarshipDetail(prevDetails => prevDetails.map((item, idx) => idx === index ? updatedStudent : item));
       toast.success("Validation Supervisor Successful");
       await fetchAndFilterStudents();
@@ -242,6 +244,7 @@ const AllAdmin = () => {
 
       // Open the PDF in a new window
       const pdfBlob = pdf.output('blob');
+      if(pdfBlob);
 pdf.save('scholarship_status.pdf');
 
 
