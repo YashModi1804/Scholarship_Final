@@ -1,23 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
 import './Student.css'
-import Profile from './Profile'
-import { MdPreview } from "react-icons/md";
 import Scholarship from './scholarship'
-import { useNavigate } from 'react-router-dom';
-import { TbCurrentLocation } from "react-icons/tb";
 import Previous from './Previous_Scholarship'
-import { SiStatuspage } from "react-icons/si";
-import { CiBank } from "react-icons/ci";
-import { FaRegUserCircle } from "react-icons/fa";
 const StudentPortal = () => {
     const [activeTab, setActiveTab] = useState('Profile');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-
-    const handleTabChange = (tabName) => {
-        setActiveTab(tabName);
-    };
+    if(setActiveTab){
+        
+    }
+    // const handleTabChange = (tabName) => {
+    //     setActiveTab(tabName);
+    // };
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -31,9 +26,9 @@ const StudentPortal = () => {
                 return null;
         }
     };
-    const handleStatusPage = () => {
-        // navigate('/status');
-      };
+    // const handleStatusPage = () => {
+    //     // navigate('/status');
+    //   };
     
     return (
         <>

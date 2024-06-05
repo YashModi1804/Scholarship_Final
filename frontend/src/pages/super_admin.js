@@ -7,13 +7,12 @@ import * as XLSX from 'xlsx';
 import { toast } from 'react-toastify';
 import logo from '../image/logo.png';
 
-let check_bulk = false;
 
 const Admin = () => {
     const [details, setDetails] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showTable, setShowTable] = useState(true);
-
+    if(showTable);
     useEffect(() => {
         const fetchScholarshipDetails = async () => {
             try {
@@ -70,6 +69,7 @@ const Admin = () => {
             `;
 
             details.map((student, index) => {
+                if(index);
                 pdfContent += `
                 <tr id="status-tr">
                     <td id="status-td">${student.enrollment}-${student.name}</td>
@@ -86,6 +86,7 @@ const Admin = () => {
                     <td id="status-td" style="color: ${student.verification_supervisor ? 'green' : 'red'};">${student.verification_supervisor ? "Approved" : "Pending"}</td>
                 </tr>
                 `;
+                return 0;
             });
 
             pdfContent += `
@@ -194,15 +195,7 @@ const Admin = () => {
     };
     
 
-    const handleVerifyAll = async () => {
-        for (const student of details) {
-            check_bulk = true;
-            if (!student.verification_sectionHead) {
-                await handleVerificationToggle(student._id);
-            }
-        }
-        toast.success("All students verified successfully");
-    };
+    
 
     if (loading) {
         return <p>Loading scholarship details...</p>;
